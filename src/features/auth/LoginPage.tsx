@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { login } from '../services/api';
+import { login } from '../../shared/services/api';
 
 export default function LoginPage({ onLogin }: { onLogin: () => void }) {
   const [email, setEmail] = useState('');

@@ -1,15 +1,15 @@
 import { useEffect, useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { isLoggedIn, logout, verifyAdminSession } from './services/api';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-import UsersPage from './pages/UsersPage';
-import UserDetailPage from './pages/UserDetailPage';
-import SubscriptionsPage from './pages/SubscriptionsPage';
-import RevenuePage from './pages/RevenuePage';
-import AiUsagePage from './pages/AiUsagePage';
-import SupportTicketsPage from './pages/SupportTicketsPage';
-import AuditLogsPage from './pages/AuditLogsPage';
+import { isLoggedIn, logout, verifyAdminSession } from './shared/services/api';
+import LoginPage from './features/auth/LoginPage';
+import DashboardPage from './features/dashboard/DashboardPage';
+import UsersPage from './features/users/UsersPage';
+import UserDetailPage from './features/users/UserDetailPage';
+import SubscriptionsPage from './features/subscriptions/SubscriptionsPage';
+import RevenuePage from './features/revenue/RevenuePage';
+import AiUsagePage from './features/ai/AiUsagePage';
+import SupportTicketsPage from './features/support/SupportTicketsPage';
+import AuditLogsPage from './features/audit/AuditLogsPage';
 
 function Layout({ onLogout }: { onLogout: () => void }) {
   return (

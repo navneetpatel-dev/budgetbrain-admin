@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
-import { apiGet } from '../services/api';
-import Pagination from '../components/Pagination';
-import { LoadingState, ErrorState, EmptyState } from '../components/PageStates';
+import { apiGet } from '../../shared/services/api';
+import Pagination from '../../shared/components/Pagination';
+import { LoadingState, ErrorState, EmptyState } from '../../shared/components/PageStates';
 
 interface Subscription {
   id: string;

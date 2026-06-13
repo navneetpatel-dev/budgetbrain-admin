@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { apiGet } from '../services/api';
-import Pagination from '../components/Pagination';
-import { LoadingState, ErrorState, EmptyState } from '../components/PageStates';
+import { apiGet } from '../../shared/services/api';
+import Pagination from '../../shared/components/Pagination';
+import { LoadingState, ErrorState, EmptyState } from '../../shared/components/PageStates';
 
 interface AiConversation {
   id: string;

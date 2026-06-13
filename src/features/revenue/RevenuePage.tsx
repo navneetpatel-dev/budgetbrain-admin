@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
-import { apiGet } from '../services/api';
-import { LoadingState, ErrorState } from '../components/PageStates';
+import { apiGet } from '../../shared/services/api';
+import { LoadingState, ErrorState } from '../../shared/components/PageStates';
 
 interface RevenuePlan {
   plan: string;

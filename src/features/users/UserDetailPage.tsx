@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { apiGet, apiPatch } from '../services/api';
-import { LoadingState, ErrorState } from '../components/PageStates';
+import { apiGet, apiPatch } from '../../shared/services/api';
+import { LoadingState, ErrorState } from '../../shared/components/PageStates';
 
 type UserRole = 'free' | 'premium' | 'lifetime' | 'admin';
 

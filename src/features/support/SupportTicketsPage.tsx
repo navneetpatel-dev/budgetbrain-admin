@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { apiGet, apiPatch } from '../services/api';
-import Pagination from '../components/Pagination';
-import { LoadingState, ErrorState, EmptyState } from '../components/PageStates';
+import { apiGet, apiPatch } from '../../shared/services/api';
+import Pagination from '../../shared/components/Pagination';
+import { LoadingState, ErrorState, EmptyState } from '../../shared/components/PageStates';
 
 type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
 
