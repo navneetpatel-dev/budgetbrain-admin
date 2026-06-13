@@ -1,0 +1,27 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f1f5f9; color: #0f172a; }
+a { color: inherit; text-decoration: none; }
+
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; background: #1e1b4b; color: #fff; padding: 24px 16px; }
+.sidebar h1 { font-size: 18px; margin-bottom: 32px; }
+.sidebar nav { display: flex; flex-direction: column; gap: 4px; }
+.sidebar a { padding: 10px 12px; border-radius: 8px; color: #c7d2fe; }
+.sidebar a.active, .sidebar a:hover { background: #4338ca; color: #fff; }
+.main { flex: 1; padding: 32px; }
+.card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.stat { text-align: center; }
+.stat-value { font-size: 28px; font-weight: 800; color: #6366f1; }
+.stat-label { font-size: 13px; color: #64748b; margin-top: 4px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+th { color: #64748b; font-weight: 600; }
+.login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.login-card { background: #fff; padding: 32px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+.login-card h1 { margin-bottom: 8px; }
+.login-card p { color: #64748b; margin-bottom: 24px; }
+input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 12px; font-size: 15px; }
+button { width: 100%; padding: 12px; background: #6366f1; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+button:hover { background: #4f46e5; }
+.error { color: #ef4444; font-size: 13px; margin-bottom: 12px; }
