@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { login } from '../../shared/services/api';
+import { BrandMark } from '../../shared/components/BrandMark';
 
 export default function LoginPage({ onLogin }: { onLogin: () => void }) {
   const [email, setEmail] = useState('');
@@ -23,28 +24,47 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
 
   return (
     <div className="login-page">
-      <form className="login-card" onSubmit={handleSubmit}>
-        <h1>ExpenseFlow Admin</h1>
-        <p>Sign in with an admin account</p>
-        {error && <div className="error">{error}</div>}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing in...' : 'Sign In'}
-        </button>
-      </form>
+      <div className="login-hero">
+        <div className="login-logo">
+          <BrandMark size={30} />
+        </div>
+        <h1>
+          Budget<span>Brain</span>
+        </h1>
+        <div className="divider" />
+        <p>Track smarter. Save better.</p>
+      </div>
+
+      <div className="login-panel">
+        <div className="login-panel-handle" aria-hidden />
+        <h2>Admin sign in</h2>
+        <form onSubmit={handleSubmit}>
+          {error && <div className="error">{error}</div>}
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="admin@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="email"
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="current-password"
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? 'Signing in…' : 'Sign In'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

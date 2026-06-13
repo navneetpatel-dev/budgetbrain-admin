@@ -1,6 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { isLoggedIn, logout, verifyAdminSession } from './shared/services/api';
+import { BrandMark } from './shared/components/BrandMark';
 import LoginPage from './features/auth/LoginPage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import UsersPage from './features/users/UsersPage';
@@ -11,21 +12,37 @@ import AiUsagePage from './features/ai/AiUsagePage';
 import SupportTicketsPage from './features/support/SupportTicketsPage';
 import AuditLogsPage from './features/audit/AuditLogsPage';
 
+const NAV = [
+  { to: '/', label: 'Dashboard', end: true },
+  { to: '/users', label: 'Users' },
+  { to: '/subscriptions', label: 'Subscriptions' },
+  { to: '/revenue', label: 'Revenue' },
+  { to: '/ai-usage', label: 'AI Usage' },
+  { to: '/support-tickets', label: 'Support' },
+  { to: '/audit-logs', label: 'Audit Logs' },
+] as const;
+
 function Layout({ onLogout }: { onLogout: () => void }) {
   return (
     <div className="layout">
       <aside className="sidebar">
-        <h1>ExpenseFlow</h1>
+        <div className="brand">
+          <div className="brand-mark">
+            <BrandMark />
+          </div>
+          <div className="brand-text">
+            <h1>
+              Budget<span>Brain</span>
+            </h1>
+            <p>Admin</p>
+          </div>
+        </div>
         <nav>
-          <NavLink to="/" end>
-            Dashboard
-          </NavLink>
-          <NavLink to="/users">Users</NavLink>
-          <NavLink to="/subscriptions">Subscriptions</NavLink>
-          <NavLink to="/revenue">Revenue</NavLink>
-          <NavLink to="/ai-usage">AI Usage</NavLink>
-          <NavLink to="/support-tickets">Support Tickets</NavLink>
-          <NavLink to="/audit-logs">Audit Logs</NavLink>
+          {NAV.map(({ to, label, ...rest }) => (
+            <NavLink key={to} to={to} {...rest}>
+              {label}
+            </NavLink>
+          ))}
         </nav>
         <button type="button" className="btn-logout" onClick={onLogout}>
           Sign Out
@@ -63,7 +80,12 @@ export default function App() {
   }, [loggedIn]);
 
   if (checking) {
-    return <div className="loading-screen">Checking session…</div>;
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner" aria-hidden />
+        <span>Checking session…</span>
+      </div>
+    );
   }
 
   if (!loggedIn) {
