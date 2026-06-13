@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { login } from '../services/api';
 
 export default function LoginPage({ onLogin }: { onLogin: () => void }) {
@@ -7,7 +7,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -27,9 +27,23 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
         <h1>ExpenseFlow Admin</h1>
         <p>Sign in with an admin account</p>
         {error && <div className="error">{error}</div>}
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit" disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Signing in...' : 'Sign In'}
+        </button>
       </form>
     </div>
   );
