@@ -2,7 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { apiGet } from '../../shared/services/api';
 import Pagination from '../../shared/components/Pagination';
-import { LoadingState, ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { AdminTableSkeleton } from '../../shared/components/Skeleton';
 
 interface AiConversation {
   id: string;
@@ -51,7 +52,7 @@ export default function AiUsagePage() {
   return (
     <div>
       <h2 className="page-title">AI Usage</h2>
-      {loading && <LoadingState />}
+      {loading && <AdminTableSkeleton rows={10} />}
       {!loading && error && <ErrorState message={error} onRetry={load} />}
       {!loading && !error && conversations.length === 0 && (
         <EmptyState message="No AI conversations found." />

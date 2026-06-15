@@ -2,7 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { apiGet, apiPatch } from '../../shared/services/api';
 import Pagination from '../../shared/components/Pagination';
-import { LoadingState, ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { AdminTableSkeleton } from '../../shared/components/Skeleton';
 
 type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
 
@@ -72,7 +73,7 @@ export default function SupportTicketsPage() {
   return (
     <div>
       <h2 className="page-title">Support Tickets</h2>
-      {loading && <LoadingState />}
+      {loading && <AdminTableSkeleton rows={8} />}
       {!loading && error && <ErrorState message={error} onRetry={load} />}
       {!loading && !error && tickets.length === 0 && (
         <EmptyState message="No support tickets found." />

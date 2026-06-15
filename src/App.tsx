@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { isLoggedIn, logout, verifyAdminSession } from './shared/services/api';
 import { BrandMark } from './shared/components/BrandMark';
+import { AdminLoginSkeleton } from './shared/components/Skeleton';
 import LoginPage from './features/auth/LoginPage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import UsersPage from './features/users/UsersPage';
@@ -11,38 +12,44 @@ import RevenuePage from './features/revenue/RevenuePage';
 import AiUsagePage from './features/ai/AiUsagePage';
 import SupportTicketsPage from './features/support/SupportTicketsPage';
 import AuditLogsPage from './features/audit/AuditLogsPage';
+import './styles.css';
 
-const NAV = [
-  { to: '/', label: 'Dashboard', end: true },
-  { to: '/users', label: 'Users' },
-  { to: '/subscriptions', label: 'Subscriptions' },
-  { to: '/revenue', label: 'Revenue' },
-  { to: '/ai-usage', label: 'AI Usage' },
-  { to: '/support-tickets', label: 'Support' },
-  { to: '/audit-logs', label: 'Audit Logs' },
-] as const;
-
-function Layout({ onLogout }: { onLogout: () => void }) {
+function Layout({
+  onLogout,
+}: {
+  onLogout: () => void;
+}) {
   return (
     <div className="layout">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-mark">
-            <BrandMark />
-          </div>
-          <div className="brand-text">
-            <h1>
-              Budget<span>Brain</span>
-            </h1>
-            <p>Admin</p>
-          </div>
+          <BrandMark size={32} />
+          <span style={{ fontWeight: 700, fontSize: 17, color: 'var(--text)' }}>
+            BudgetBrain
+          </span>
         </div>
         <nav>
-          {NAV.map(({ to, label, ...rest }) => (
-            <NavLink key={to} to={to} {...rest}>
-              {label}
-            </NavLink>
-          ))}
+          <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
+            Dashboard
+          </NavLink>
+          <NavLink to="/users" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Users
+          </NavLink>
+          <NavLink to="/subscriptions" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Subscriptions
+          </NavLink>
+          <NavLink to="/revenue" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Revenue
+          </NavLink>
+          <NavLink to="/ai-usage" className={({ isActive }) => (isActive ? 'active' : '')}>
+            AI Usage
+          </NavLink>
+          <NavLink to="/support-tickets" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Support
+          </NavLink>
+          <NavLink to="/audit-logs" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Audit Logs
+          </NavLink>
         </nav>
         <button type="button" className="btn-logout" onClick={onLogout}>
           Sign Out
@@ -65,11 +72,12 @@ function Layout({ onLogout }: { onLogout: () => void }) {
 }
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-  const [checking, setChecking] = useState(loggedIn);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    if (!loggedIn) {
+    if (isLoggedIn()) {
+      setLoggedIn(true);
       setChecking(false);
       return;
     }
@@ -79,14 +87,7 @@ export default function App() {
     });
   }, [loggedIn]);
 
-  if (checking) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-spinner" aria-hidden />
-        <span>Checking session…</span>
-      </div>
-    );
-  }
+  if (checking) return <AdminLoginSkeleton />;
 
   if (!loggedIn) {
     return <LoginPage onLogin={() => setLoggedIn(true)} />;

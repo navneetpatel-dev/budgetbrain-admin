@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { apiGet } from '../../shared/services/api';
-import { LoadingState, ErrorState } from '../../shared/components/PageStates';
+import { ErrorState } from '../../shared/components/PageStates';
+import { AdminDashboardSkeleton } from '../../shared/components/Skeleton';
 
 interface RevenuePlan {
   plan: string;
@@ -53,7 +54,7 @@ export default function RevenuePage() {
     load();
   }, [load]);
 
-  if (loading) return <LoadingState />;
+  if (loading) return <AdminDashboardSkeleton />;
   if (error) return <ErrorState message={error} onRetry={load} />;
   if (!data) return <ErrorState message="No revenue data available" onRetry={load} />;
 

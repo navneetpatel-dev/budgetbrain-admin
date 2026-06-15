@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { apiGet, apiPatch } from '../../shared/services/api';
-import { LoadingState, ErrorState } from '../../shared/components/PageStates';
+import { ErrorState } from '../../shared/components/PageStates';
+import { AdminDetailSkeleton } from '../../shared/components/Skeleton';
 
 type UserRole = 'free' | 'premium' | 'lifetime' | 'admin';
 
@@ -81,7 +82,7 @@ export default function UserDetailPage() {
   };
 
   if (!id) return <ErrorState message="Invalid user ID" />;
-  if (loading) return <LoadingState />;
+  if (loading) return <AdminDetailSkeleton />;
   if (error) return <ErrorState message={error} onRetry={load} />;
   if (!user) return <ErrorState message="User not found" onRetry={load} />;
 

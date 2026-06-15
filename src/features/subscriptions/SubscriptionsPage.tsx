@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { apiGet } from '../../shared/services/api';
 import Pagination from '../../shared/components/Pagination';
-import { LoadingState, ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { AdminTableSkeleton } from '../../shared/components/Skeleton';
 
 interface Subscription {
   id: string;
@@ -50,7 +51,7 @@ export default function SubscriptionsPage() {
   return (
     <div>
       <h2 className="page-title">Subscriptions</h2>
-      {loading && <LoadingState />}
+      {loading && <AdminTableSkeleton rows={8} />}
       {!loading && error && <ErrorState message={error} onRetry={load} />}
       {!loading && !error && subs.length === 0 && <EmptyState message="No subscriptions found." />}
       {!loading && !error && subs.length > 0 && (

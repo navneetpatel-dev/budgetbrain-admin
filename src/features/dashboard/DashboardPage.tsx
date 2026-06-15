@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { apiGet } from '../../shared/services/api';
-import { LoadingState, ErrorState } from '../../shared/components/PageStates';
+import { ErrorState } from '../../shared/components/PageStates';
+import { AdminDashboardSkeleton } from '../../shared/components/Skeleton';
 
 interface DashboardData {
   totalUsers: number;
@@ -47,7 +48,7 @@ export default function DashboardPage() {
     load();
   }, [load]);
 
-  if (loading) return <LoadingState />;
+  if (loading) return <AdminDashboardSkeleton />;
   if (error) return <ErrorState message={error} onRetry={load} />;
   if (!dashboard || !stats) return <ErrorState message="No dashboard data available" onRetry={load} />;
 

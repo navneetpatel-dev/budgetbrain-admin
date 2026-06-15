@@ -2,7 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { apiGet } from '../../shared/services/api';
 import Pagination from '../../shared/components/Pagination';
-import { LoadingState, ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { ErrorState, EmptyState } from '../../shared/components/PageStates';
+import { AdminTableSkeleton } from '../../shared/components/Skeleton';
 
 interface User {
   id: string;
@@ -50,7 +51,7 @@ export default function UsersPage() {
   return (
     <div>
       <h2 className="page-title">Users</h2>
-      {loading && <LoadingState />}
+      {loading && <AdminTableSkeleton rows={8} />}
       {!loading && error && <ErrorState message={error} onRetry={load} />}
       {!loading && !error && users.length === 0 && <EmptyState message="No users found." />}
       {!loading && !error && users.length > 0 && (
