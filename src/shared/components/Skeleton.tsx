@@ -32,7 +32,8 @@ function SkeletonBlock({
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(105deg, transparent 30%, var(--primary-soft) 50%, transparent 70%)',
+          background:
+            'linear-gradient(105deg, transparent 30%, var(--primary-soft) 50%, transparent 70%)',
           animation: 'admin-shimmer 1.4s ease-in-out infinite',
         }}
       />
@@ -40,14 +41,18 @@ function SkeletonBlock({
   );
 }
 
-function SkeletonCircle({ size = 32, style }: { size?: number; style?: CSSProperties }) {
-  return <SkeletonBlock width={size} height={size} radius={size / 2} style={style} />;
-}
-
-function SurfaceCard({ children, style }: { children: ReactNode; style?: CSSProperties }) {
+function SurfaceCard({
+  children,
+  className,
+  style,
+}: {
+  children: ReactNode;
+  className?: string;
+  style?: CSSProperties;
+}) {
   return (
     <div
-      className="card"
+      className={className ? `card ${className}` : 'card'}
       style={{
         padding: 16,
         ...style,
@@ -60,33 +65,21 @@ function SurfaceCard({ children, style }: { children: ReactNode; style?: CSSProp
 
 /* ── Page-Level Skeletons ── */
 
-function SkeletonHeader() {
-  return (
-    <div style={{ marginBottom: 24 }}>
-      <SkeletonBlock width={200} height={28} radius={8} />
-      <SkeletonBlock width={160} height={14} radius={6} style={{ marginTop: 10 }} />
-    </div>
-  );
-}
-
-/** Dashboard: KPI cards with label + value shape */
+/** Dashboard/KPI cards — matches `.grid` + `.stat` layout. Title stays on the page. */
 export function AdminDashboardSkeleton({ cards = 12 }: { cards?: number }) {
   return (
-    <div>
-      <SkeletonHeader />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
-        {Array.from({ length: cards }).map((_, i) => (
-          <SurfaceCard key={i} style={{ minHeight: 100 }}>
-            <SkeletonBlock width="55%" height={28} radius={8} style={{ marginBottom: 12 }} />
-            <SkeletonBlock width="70%" height={13} radius={6} />
-          </SurfaceCard>
-        ))}
-      </div>
+    <div className="grid">
+      {Array.from({ length: cards }).map((_, i) => (
+        <SurfaceCard key={i} className="stat" style={{ minHeight: 88, textAlign: 'center' }}>
+          <SkeletonBlock width="48%" height={28} radius={8} style={{ margin: '0 auto 10px' }} />
+          <SkeletonBlock width="62%" height={13} radius={6} style={{ margin: '0 auto' }} />
+        </SurfaceCard>
+      ))}
     </div>
   );
 }
 
-/** Table/list skeleton with column-shaped rows */
+/** Table/list skeleton — matches card + table chrome. Title stays on the page. */
 export function AdminTableSkeleton({
   rows = 8,
   columns = 5,
@@ -94,10 +87,9 @@ export function AdminTableSkeleton({
   rows?: number;
   columns?: number;
 }) {
-  const widths = ['22%', '28%', '14%', '14%', '16%'];
+  const widths = ['20%', '26%', '14%', '14%', '16%', '12%', '12%', '10%'];
   return (
     <div>
-      <SkeletonHeader />
       <SurfaceCard style={{ padding: 0, overflow: 'hidden' }}>
         <div
           style={{
@@ -123,18 +115,14 @@ export function AdminTableSkeleton({
               borderBottom: row < rows - 1 ? '1px solid var(--border-subtle)' : 'none',
             }}
           >
-            {Array.from({ length: columns }).map((_, col) =>
-              col === 0 ? (
-                <div key={col} style={{ display: 'flex', alignItems: 'center', gap: 10, width: widths[0] }}>
-                  <SkeletonCircle size={28} />
-                  <SkeletonBlock width="70%" height={13} radius={5} />
-                </div>
-              ) : col === columns - 2 ? (
-                <SkeletonBlock key={col} width={64} height={22} radius={999} style={{ width: widths[col % widths.length] }} />
-              ) : (
-                <SkeletonBlock key={col} width={widths[col % widths.length]} height={13} radius={5} />
-              )
-            )}
+            {Array.from({ length: columns }).map((_, col) => (
+              <SkeletonBlock
+                key={col}
+                width={widths[col % widths.length]}
+                height={13}
+                radius={5}
+              />
+            ))}
           </div>
         ))}
       </SurfaceCard>
@@ -157,7 +145,7 @@ export function AdminDetailSkeleton() {
         <SkeletonBlock width={120} height={14} radius={6} style={{ marginBottom: 12 }} />
         <SkeletonBlock width={220} height={28} radius={8} />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+      <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
         <SurfaceCard>
           <SkeletonBlock width={90} height={16} radius={6} style={{ marginBottom: 18 }} />
           {Array.from({ length: 6 }).map((_, i) => (

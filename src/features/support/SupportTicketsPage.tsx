@@ -1,6 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiGet, apiPatch } from '../../shared/services/api';
+import { useCachedResource } from '../../shared/hooks/useCachedResource';
 import Pagination from '../../shared/components/Pagination';
 import { ErrorState, EmptyState } from '../../shared/components/PageStates';
 import { AdminTableSkeleton } from '../../shared/components/Skeleton';
@@ -31,40 +32,31 @@ const LIMIT = 20;
 const STATUSES: TicketStatus[] = ['open', 'in_progress', 'resolved', 'closed'];
 
 export default function SupportTicketsPage() {
-  const [tickets, setTickets] = useState<SupportTicket[]>([]);
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState('');
+  const { data, error, loading, refreshing, reload, setData } = useCachedResource<TicketsResponse>(
+    `support-tickets:${page}`,
+    () => apiGet<TicketsResponse>(`/admin/support-tickets?page=${page}&limit=${LIMIT}`)
+  );
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const data = await apiGet<TicketsResponse>(
-        `/admin/support-tickets?page=${page}&limit=${LIMIT}`
-      );
-      setTickets(data.tickets);
-      setTotal(data.total);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load support tickets');
-    } finally {
-      setLoading(false);
-    }
-  }, [page]);
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const tickets = data?.tickets ?? [];
+  const total = data?.total ?? 0;
 
   const updateStatus = async (id: string, status: TicketStatus) => {
     setUpdatingId(id);
+    setActionError('');
     try {
       const updated = await apiPatch<SupportTicket>(`/admin/support-tickets/${id}`, { status });
-      setTickets((prev) => prev.map((t) => (t.id === id ? { ...t, ...updated } : t)));
+      setData((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          tickets: prev.tickets.map((t) => (t.id === id ? { ...t, ...updated } : t)),
+        };
+      });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update ticket');
+      setActionError(err instanceof Error ? err.message : 'Failed to update ticket');
     } finally {
       setUpdatingId(null);
     }
@@ -73,13 +65,14 @@ export default function SupportTicketsPage() {
   return (
     <div>
       <h2 className="page-title">Support Tickets</h2>
-      {loading && <AdminTableSkeleton rows={8} />}
-      {!loading && error && <ErrorState message={error} onRetry={load} />}
+      {actionError && <div className="error">{actionError}</div>}
+      {loading && <AdminTableSkeleton rows={8} columns={5} />}
+      {!loading && error && <ErrorState message={error} onRetry={reload} />}
       {!loading && !error && tickets.length === 0 && (
         <EmptyState message="No support tickets found." />
       )}
       {!loading && !error && tickets.length > 0 && (
-        <div className="card">
+        <div className={`card${refreshing ? ' is-refreshing' : ''}`}>
           <table>
             <thead>
               <tr>

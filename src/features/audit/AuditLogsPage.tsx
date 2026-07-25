@@ -1,5 +1,6 @@
-import { Fragment, useEffect, useState, useCallback } from 'react';
+import { Fragment, useState } from 'react';
 import { apiGet } from '../../shared/services/api';
+import { useCachedResource } from '../../shared/hooks/useCachedResource';
 import Pagination from '../../shared/components/Pagination';
 import { ErrorState, EmptyState } from '../../shared/components/PageStates';
 import { AdminTableSkeleton } from '../../shared/components/Skeleton';
@@ -37,20 +38,16 @@ interface AuditLogsResponse {
 const LIMIT = 50;
 
 export default function AuditLogsPage() {
-  const [logs, setLogs] = useState<AuditLog[]>([]);
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [source, setSource] = useState<'' | AuditSource>('');
   const [outcome, setOutcome] = useState<'' | AuditOutcome>('');
   const [severity, setSeverity] = useState<'' | AuditSeverity>('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
+  const cacheKey = `audit-logs:${page}:${source}:${outcome}:${severity}`;
+  const { data, error, loading, refreshing, reload } = useCachedResource<AuditLogsResponse>(
+    cacheKey,
+    () => {
       const params = new URLSearchParams({
         page: String(page),
         limit: String(LIMIT),
@@ -58,20 +55,12 @@ export default function AuditLogsPage() {
       if (source) params.set('source', source);
       if (outcome) params.set('outcome', outcome);
       if (severity) params.set('severity', severity);
-
-      const data = await apiGet<AuditLogsResponse>(`/admin/audit-logs?${params}`);
-      setLogs(data.logs);
-      setTotal(data.total);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load audit logs');
-    } finally {
-      setLoading(false);
+      return apiGet<AuditLogsResponse>(`/admin/audit-logs?${params}`);
     }
-  }, [page, source, outcome, severity]);
+  );
 
-  useEffect(() => {
-    load();
-  }, [load]);
+  const logs = data?.logs ?? [];
+  const total = data?.total ?? 0;
 
   return (
     <div>
@@ -130,11 +119,11 @@ export default function AuditLogsPage() {
         </div>
       </div>
 
-      {loading && <AdminTableSkeleton rows={8} />}
-      {!loading && error && <ErrorState message={error} onRetry={load} />}
+      {loading && <AdminTableSkeleton rows={8} columns={8} />}
+      {!loading && error && <ErrorState message={error} onRetry={reload} />}
       {!loading && !error && logs.length === 0 && <EmptyState message="No audit logs found." />}
       {!loading && !error && logs.length > 0 && (
-        <div className="card">
+        <div className={`card${refreshing ? ' is-refreshing' : ''}`}>
           <table>
             <thead>
               <tr>

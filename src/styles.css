@@ -466,6 +466,12 @@ select.input-invalid:focus {
   color: var(--text-tertiary);
 }
 
+.is-refreshing {
+  opacity: 0.72;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
 @keyframes admin-shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }

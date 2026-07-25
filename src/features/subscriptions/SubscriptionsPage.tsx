@@ -1,5 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
 import { apiGet } from '../../shared/services/api';
+import { useCachedResource } from '../../shared/hooks/useCachedResource';
 import Pagination from '../../shared/components/Pagination';
 import { ErrorState, EmptyState } from '../../shared/components/PageStates';
 import { AdminTableSkeleton } from '../../shared/components/Skeleton';
@@ -22,40 +23,23 @@ interface SubscriptionsResponse {
 const LIMIT = 20;
 
 export default function SubscriptionsPage() {
-  const [subs, setSubs] = useState<Subscription[]>([]);
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const { data, error, loading, refreshing, reload } = useCachedResource<SubscriptionsResponse>(
+    `subscriptions:${page}`,
+    () => apiGet<SubscriptionsResponse>(`/admin/subscriptions?page=${page}&limit=${LIMIT}`)
+  );
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const data = await apiGet<SubscriptionsResponse>(
-        `/admin/subscriptions?page=${page}&limit=${LIMIT}`
-      );
-      setSubs(data.subscriptions);
-      setTotal(data.total);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load subscriptions');
-    } finally {
-      setLoading(false);
-    }
-  }, [page]);
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const subs = data?.subscriptions ?? [];
+  const total = data?.total ?? 0;
 
   return (
     <div>
       <h2 className="page-title">Subscriptions</h2>
-      {loading && <AdminTableSkeleton rows={8} />}
-      {!loading && error && <ErrorState message={error} onRetry={load} />}
+      {loading && <AdminTableSkeleton rows={8} columns={4} />}
+      {!loading && error && <ErrorState message={error} onRetry={reload} />}
       {!loading && !error && subs.length === 0 && <EmptyState message="No subscriptions found." />}
       {!loading && !error && subs.length > 0 && (
-        <div className="card">
+        <div className={`card${refreshing ? ' is-refreshing' : ''}`}>
           <table>
             <thead>
               <tr>

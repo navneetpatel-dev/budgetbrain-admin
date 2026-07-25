@@ -1,6 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { apiGet } from '../../shared/services/api';
+import { useCachedResource } from '../../shared/hooks/useCachedResource';
 import Pagination from '../../shared/components/Pagination';
 import { ErrorState, EmptyState } from '../../shared/components/PageStates';
 import { AdminTableSkeleton } from '../../shared/components/Skeleton';
@@ -24,38 +25,23 @@ interface UsersResponse {
 const LIMIT = 20;
 
 export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const { data, error, loading, refreshing, reload } = useCachedResource<UsersResponse>(
+    `users:${page}`,
+    () => apiGet<UsersResponse>(`/admin/users?page=${page}&limit=${LIMIT}`)
+  );
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const data = await apiGet<UsersResponse>(`/admin/users?page=${page}&limit=${LIMIT}`);
-      setUsers(data.users);
-      setTotal(data.total);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load users');
-    } finally {
-      setLoading(false);
-    }
-  }, [page]);
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const users = data?.users ?? [];
+  const total = data?.total ?? 0;
 
   return (
     <div>
       <h2 className="page-title">Users</h2>
-      {loading && <AdminTableSkeleton rows={8} />}
-      {!loading && error && <ErrorState message={error} onRetry={load} />}
+      {loading && <AdminTableSkeleton rows={8} columns={5} />}
+      {!loading && error && <ErrorState message={error} onRetry={reload} />}
       {!loading && !error && users.length === 0 && <EmptyState message="No users found." />}
       {!loading && !error && users.length > 0 && (
-        <div className="card">
+        <div className={`card${refreshing ? ' is-refreshing' : ''}`}>
           <table>
             <thead>
               <tr>
