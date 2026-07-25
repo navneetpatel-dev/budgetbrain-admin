@@ -448,32 +448,6 @@ button:disabled {
   color: var(--text-tertiary);
 }
 
-.loading-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  gap: 16px;
-  color: var(--text-secondary);
-  background: var(--bg);
-}
-
-.loading-spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--border);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes admin-shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }

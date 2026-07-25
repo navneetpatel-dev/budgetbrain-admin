@@ -1,7 +1,3 @@
-export function LoadingState({ label = 'Loading...' }: { label?: string }) {
-  return <div className="state-message">{label}</div>;
-}
-
 export function ErrorState({
   message,
   onRetry,
