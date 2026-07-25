@@ -476,7 +476,13 @@ button:disabled {
 
 @keyframes admin-shimmer {
   0% { transform: translateX(-100%); }
-  100% { transform: translateX(300%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*='admin-shimmer'] {
+    animation: none !important;
+  }
 }
 
 /* ── Pagination ── */
