@@ -35,7 +35,7 @@ interface AuditLogsResponse {
   limit: number;
 }
 
-const LIMIT = 50;
+const LIMIT = 10;
 
 export default function AuditLogsPage() {
   const [page, setPage] = useState(1);
