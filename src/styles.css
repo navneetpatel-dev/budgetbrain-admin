@@ -383,6 +383,24 @@ button:disabled {
   border-radius: var(--radius-sm);
 }
 
+.field-error {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 500;
+  margin: -8px 0 12px;
+}
+
+input.input-invalid,
+select.input-invalid {
+  border-color: var(--danger);
+}
+
+input.input-invalid:focus,
+select.input-invalid:focus {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 18%, transparent);
+}
+
 /* ── Typography & links ── */
 
 .page-title {
