@@ -1,4 +1,4 @@
-/** Keep in sync with backend/src/validation/limits.ts + messages.ts */
+/** Keep in sync with backend/src/shared/validation/limits.ts + messages.ts */
 export const FieldLimits = {
   email: { min: 1, max: 255 },
   password: { min: 8, max: 72 },
