@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { login } from '../../shared/services/api';
 import { BrandMark } from '../../shared/components/BrandMark';
+import { FieldLimits, maxLen } from '../../shared/validation/fieldLimits';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -16,8 +17,13 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
     setError('');
     const next: { email?: string; password?: string } = {};
     if (!email.trim()) next.email = 'Email is required';
-    else if (!EMAIL_PATTERN.test(email.trim())) next.email = 'Enter a valid email address';
+    else if (email.trim().length > FieldLimits.email.max) {
+      next.email = `Email must be at most ${FieldLimits.email.max} characters`;
+    } else if (!EMAIL_PATTERN.test(email.trim())) next.email = 'Enter a valid email address';
     if (!password) next.password = 'Password is required';
+    else if (password.length > FieldLimits.password.max) {
+      next.password = `Password must be at most ${FieldLimits.password.max} characters`;
+    }
     setFieldErrors(next);
     if (Object.keys(next).length) return;
 
@@ -57,6 +63,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
             className={fieldErrors.email ? 'input-invalid' : undefined}
             placeholder="admin@example.com"
             value={email}
+            maxLength={maxLen('email')}
             onChange={(e) => {
               setEmail(e.target.value);
               setFieldErrors((f) => ({ ...f, email: undefined }));
@@ -75,6 +82,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
             className={fieldErrors.password ? 'input-invalid' : undefined}
             placeholder="••••••••"
             value={password}
+            maxLength={maxLen('password')}
             onChange={(e) => {
               setPassword(e.target.value);
               setFieldErrors((f) => ({ ...f, password: undefined }));
