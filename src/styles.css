@@ -635,6 +635,128 @@ select.input-invalid:focus {
   color: var(--danger);
 }
 
+.badge-source-mobile {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.badge-source-web {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-source-admin {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.badge-source-system {
+  background: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.badge-outcome-success {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.badge-outcome-failure {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.badge-severity-info {
+  background: var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.badge-severity-warning {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.badge-severity-critical {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.audit-filters {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.audit-filters .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.audit-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.audit-actor {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.audit-actor small {
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.audit-action {
+  font-size: 12px;
+  background: var(--border-subtle);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.audit-time {
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.audit-details-row td {
+  background: var(--bg);
+}
+
+.audit-details {
+  display: grid;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 13px;
+}
+
+.audit-details > div {
+  display: grid;
+  gap: 4px;
+}
+
+.audit-details strong {
+  color: var(--text-secondary);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.audit-json pre {
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: auto;
+  font-size: 12px;
+  max-height: 200px;
+}
+
 .select-sm {
   width: auto;
   margin-bottom: 0;
