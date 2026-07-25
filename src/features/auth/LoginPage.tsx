@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { login } from '../../shared/services/api';
 import { BrandMark } from '../../shared/components/BrandMark';
-import { FieldLimits, maxLen } from '../../shared/validation/fieldLimits';
+import { FieldLimits, maxLen, ValidationMessages } from '../../shared/validation/fieldLimits';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -16,13 +16,13 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
     e.preventDefault();
     setError('');
     const next: { email?: string; password?: string } = {};
-    if (!email.trim()) next.email = 'Email is required';
+    if (!email.trim()) next.email = ValidationMessages.emailRequired;
     else if (email.trim().length > FieldLimits.email.max) {
-      next.email = `Email must be at most ${FieldLimits.email.max} characters`;
-    } else if (!EMAIL_PATTERN.test(email.trim())) next.email = 'Enter a valid email address';
-    if (!password) next.password = 'Password is required';
+      next.email = ValidationMessages.emailMax;
+    } else if (!EMAIL_PATTERN.test(email.trim())) next.email = ValidationMessages.emailInvalid;
+    if (!password) next.password = ValidationMessages.passwordRequired;
     else if (password.length > FieldLimits.password.max) {
-      next.password = `Password must be at most ${FieldLimits.password.max} characters`;
+      next.password = ValidationMessages.passwordMax;
     }
     setFieldErrors(next);
     if (Object.keys(next).length) return;
