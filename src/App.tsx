@@ -23,9 +23,11 @@ function Layout({
     <div className="layout">
       <aside className="sidebar">
         <div className="brand">
-          <BrandMark size={32} />
+          <div className="brand-mark">
+            <BrandMark size={22} color="var(--on-primary)" strokeWidth={2} />
+          </div>
           <span style={{ fontWeight: 700, fontSize: 17, color: 'var(--text)' }}>
-            BudgetBrain
+            budgetbrain
           </span>
         </div>
         <nav>
