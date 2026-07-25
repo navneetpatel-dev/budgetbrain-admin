@@ -9,9 +9,16 @@ const cache = new Map<string, unknown>();
  *
  * When the cache key changes (pagination/filters) and the new key is cold,
  * the previous result stays visible until the new one arrives.
+ *
+ * Pass `{ cache: false }` for frequently changing lists (e.g. audit logs).
  */
-export function useCachedResource<T>(key: string, fetcher: () => Promise<T>) {
-  const cached = cache.get(key) as T | undefined;
+export function useCachedResource<T>(
+  key: string,
+  fetcher: () => Promise<T>,
+  options?: { cache?: boolean }
+) {
+  const useCache = options?.cache !== false;
+  const cached = useCache ? (cache.get(key) as T | undefined) : undefined;
   const [data, setDataState] = useState<T | undefined>(cached);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(cached === undefined);
@@ -23,7 +30,7 @@ export function useCachedResource<T>(key: string, fetcher: () => Promise<T>) {
 
   const load = useCallback(async () => {
     const id = ++requestId.current;
-    const cachedForKey = cache.get(key) as T | undefined;
+    const cachedForKey = useCache ? (cache.get(key) as T | undefined) : undefined;
     const hasVisible = visibleDataRef.current !== undefined || cachedForKey !== undefined;
     setError('');
 
@@ -42,7 +49,7 @@ export function useCachedResource<T>(key: string, fetcher: () => Promise<T>) {
     try {
       const result = await fetcherRef.current();
       if (id !== requestId.current) return;
-      cache.set(key, result);
+      if (useCache) cache.set(key, result);
       visibleDataRef.current = result;
       setDataState(result);
     } catch (err) {
@@ -54,7 +61,7 @@ export function useCachedResource<T>(key: string, fetcher: () => Promise<T>) {
         setRefreshing(false);
       }
     }
-  }, [key]);
+  }, [key, useCache]);
 
   useEffect(() => {
     void load();
@@ -68,13 +75,13 @@ export function useCachedResource<T>(key: string, fetcher: () => Promise<T>) {
             ? (updater as (p: T | undefined) => T | undefined)(prev)
             : updater;
         if (next !== undefined) {
-          cache.set(key, next);
+          if (useCache) cache.set(key, next);
           visibleDataRef.current = next;
         }
         return next;
       });
     },
-    [key]
+    [key, useCache]
   );
 
   return {

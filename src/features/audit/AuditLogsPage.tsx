@@ -56,7 +56,8 @@ export default function AuditLogsPage() {
       if (outcome) params.set('outcome', outcome);
       if (severity) params.set('severity', severity);
       return apiGet<AuditLogsResponse>(`/admin/audit-logs?${params}`);
-    }
+    },
+    { cache: false }
   );
 
   const logs = data?.logs ?? [];
