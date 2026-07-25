@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3003/api/v1';
 const TOKEN_KEY = 'admin_token';
 const REFRESH_KEY = 'admin_refresh_token';
 
@@ -53,7 +53,7 @@ export async function verifyAdminSession(): Promise<boolean> {
   const token = getToken();
   if (!token) return false;
   try {
-    const user = await apiGet<{ role: string }>('/users/me');
+    const user = await apiGet<{ role: string }>('/auth/me');
     if (user.role !== 'admin') {
       clearToken();
       return false;
@@ -173,20 +173,20 @@ export async function login(email: string, password: string) {
     body: JSON.stringify({ email, password }),
   });
 
-  const json: ApiResponse<{ accessToken: string; refreshToken: string }> = await res.json();
+  const json: ApiResponse<{
+    accessToken: string;
+    refreshToken: string;
+    user: { role: string };
+  }> = await res.json();
   if (!res.ok || !json.success) {
     throw new Error(json.error?.message ?? 'Login failed');
   }
 
-  const userRes = await fetch(`${API_URL}/users/me`, {
-    headers: { Authorization: `Bearer ${json.data.accessToken}` },
-  });
-  const userJson: ApiResponse<{ role: string }> = await userRes.json();
-  if (!userRes.ok || !userJson.success || userJson.data?.role !== 'admin') {
+  if (json.data.user?.role !== 'admin') {
     throw new Error('Admin access required');
   }
 
   setToken(json.data.accessToken);
   setRefreshToken(json.data.refreshToken);
-  return userJson.data;
+  return json.data.user;
 }
