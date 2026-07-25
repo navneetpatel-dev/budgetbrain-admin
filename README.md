@@ -1,6 +1,6 @@
 # ExpenseFlow Admin
 
-Web dashboard for managing ExpenseFlow users, subscriptions, and audit logs.
+Web dashboard for managing ExpenseFlow users and audit logs.
 
 **Related repos:** [expenseflow-api](https://github.com/your-org/expenseflow-api) · [expenseflow-mobile](https://github.com/your-org/expenseflow-mobile)
 
@@ -53,5 +53,4 @@ Open http://localhost:5173
 
 - Dashboard (users, MRR, conversion, AI usage)
 - User management
-- Subscription monitoring
 - Audit logs

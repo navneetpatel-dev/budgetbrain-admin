@@ -6,7 +6,6 @@ src/
     auth/             # LoginPage
     dashboard/        # DashboardPage
     users/            # UsersPage, UserDetailPage
-    subscriptions/
     revenue/
     ai/
     audit/

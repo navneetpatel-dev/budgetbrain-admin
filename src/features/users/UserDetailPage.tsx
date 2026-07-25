@@ -5,13 +5,13 @@ import { useCachedResource } from '../../shared/hooks/useCachedResource';
 import { ErrorState } from '../../shared/components/PageStates';
 import { AdminDetailSkeleton } from '../../shared/components/Skeleton';
 
-type UserRole = 'free' | 'premium' | 'lifetime' | 'admin';
+type UserRole = 'free' | 'admin';
 
 interface UserDetail {
   id: string;
   email: string;
   name: string | null;
-  role: UserRole;
+  role: string;
   isSuspended: boolean;
   country: string | null;
   currency: string;
@@ -21,7 +21,11 @@ interface UserDetail {
   createdAt: string;
 }
 
-const ROLES: UserRole[] = ['free', 'premium', 'lifetime', 'admin'];
+const ROLES: UserRole[] = ['free', 'admin'];
+
+function toEditableRole(role: string): UserRole {
+  return role === 'admin' ? 'admin' : 'free';
+}
 
 export default function UserDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -38,7 +42,7 @@ export default function UserDetailPage() {
   );
 
   useEffect(() => {
-    if (user) setRole(user.role);
+    if (user) setRole(toEditableRole(user.role));
   }, [user]);
 
   const saveRole = async () => {

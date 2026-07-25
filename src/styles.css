@@ -575,16 +575,6 @@ select.input-invalid:focus {
   color: var(--text-secondary);
 }
 
-.badge-premium {
-  background: var(--primary-soft);
-  color: var(--primary);
-}
-
-.badge-lifetime {
-  background: var(--warning-soft);
-  color: var(--warning);
-}
-
 .badge-admin {
   background: #ede9fe;
   color: #6d28d9;
@@ -598,12 +588,6 @@ select.input-invalid:focus {
 .badge-suspended {
   background: var(--danger-soft);
   color: var(--danger);
-}
-
-.badge-monthly,
-.badge-yearly {
-  background: var(--primary-soft);
-  color: var(--primary);
 }
 
 .badge-open {
