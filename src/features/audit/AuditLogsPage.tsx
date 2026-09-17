@@ -65,7 +65,22 @@ export default function AuditLogsPage() {
 
   return (
     <div>
-      <h2 className="page-title">Audit Logs</h2>
+      <div className="page-header">
+        <div>
+          <h2 className="page-title">Audit Logs</h2>
+          <p className="page-subtitle">
+            {total > 0 ? `${total.toLocaleString()} audit events` : 'Full platform activity trail'}
+          </p>
+        </div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-refresh"
+          onClick={() => void reload()}
+          disabled={loading || refreshing}
+        >
+          {refreshing ? 'Refreshing…' : '↻ Refresh'}
+        </button>
+      </div>
 
       <div className="card audit-filters">
         <div className="form-row">

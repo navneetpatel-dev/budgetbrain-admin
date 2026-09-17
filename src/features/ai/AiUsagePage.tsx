@@ -37,7 +37,26 @@ export default function AiUsagePage() {
 
   return (
     <div>
-      <h2 className="page-title">AI Usage</h2>
+      <div className="page-header">
+        <div>
+          <div className="status-pill">
+            <span className="live-dot" />
+            <span>AI Engine Active</span>
+          </div>
+          <h2 className="page-title">AI Usage</h2>
+          <p className="page-subtitle">
+            {total > 0 ? `${total.toLocaleString()} total conversations` : 'Monitor AI coach interactions'}
+          </p>
+        </div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-refresh"
+          onClick={() => void reload()}
+          disabled={loading || refreshing}
+        >
+          {refreshing ? 'Refreshing…' : '↻ Refresh'}
+        </button>
+      </div>
       {loading && <AdminTableSkeleton rows={10} columns={5} />}
       {!loading && error && <ErrorState message={error} onRetry={reload} />}
       {!loading && !error && conversations.length === 0 && (
@@ -49,7 +68,7 @@ export default function AiUsagePage() {
             <thead>
               <tr>
                 <th>User</th>
-                <th>Title</th>
+                <th>Conversation Title</th>
                 <th>Messages</th>
                 <th>Created</th>
                 <th>Last Updated</th>
@@ -62,11 +81,24 @@ export default function AiUsagePage() {
                     <Link to={`/users/${c.userId}`} className="link">
                       {c.user?.email ?? c.userId.slice(0, 8)}
                     </Link>
+                    {c.user?.name && (
+                      <div style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 2 }}>{c.user.name}</div>
+                    )}
                   </td>
-                  <td>{c.title}</td>
-                  <td>{c.messageCount}</td>
-                  <td>{new Date(c.createdAt).toLocaleDateString()}</td>
-                  <td>{new Date(c.updatedAt).toLocaleDateString()}</td>
+                  <td style={{ maxWidth: 300 }}>
+                    <span style={{ display: 'block', fontWeight: 500, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {c.title}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="badge badge-secondary">{c.messageCount}</span>
+                  </td>
+                  <td style={{ color: 'var(--text-tertiary)', fontSize: 13 }}>
+                    {new Date(c.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </td>
+                  <td style={{ color: 'var(--text-tertiary)', fontSize: 13 }}>
+                    {new Date(c.updatedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </td>
                 </tr>
               ))}
             </tbody>

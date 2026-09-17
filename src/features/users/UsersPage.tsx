@@ -36,7 +36,20 @@ export default function UsersPage() {
 
   return (
     <div>
-      <h2 className="page-title">Users</h2>
+      <div className="page-header">
+        <div>
+          <h2 className="page-title">Users</h2>
+          <p className="page-subtitle">{total > 0 ? `${total.toLocaleString()} registered accounts` : 'Manage all user accounts'}</p>
+        </div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-refresh"
+          onClick={() => void reload()}
+          disabled={loading || refreshing}
+        >
+          {refreshing ? 'Refreshing…' : '↻ Refresh'}
+        </button>
+      </div>
       {loading && <AdminTableSkeleton rows={8} columns={5} />}
       {!loading && error && <ErrorState message={error} onRetry={reload} />}
       {!loading && !error && users.length === 0 && <EmptyState message="No users found." />}
@@ -60,7 +73,7 @@ export default function UsersPage() {
                       {u.name ?? '—'}
                     </Link>
                   </td>
-                  <td>{u.email}</td>
+                  <td style={{ color: 'var(--text-secondary)', fontSize: 13 }}>{u.email}</td>
                   <td>
                     <span className={`badge badge-${u.role}`}>{u.role}</span>
                   </td>
@@ -71,7 +84,9 @@ export default function UsersPage() {
                       <span className="badge badge-active">Active</span>
                     )}
                   </td>
-                  <td>{new Date(u.createdAt).toLocaleDateString()}</td>
+                  <td style={{ color: 'var(--text-tertiary)', fontSize: 13 }}>
+                    {new Date(u.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </td>
                 </tr>
               ))}
             </tbody>

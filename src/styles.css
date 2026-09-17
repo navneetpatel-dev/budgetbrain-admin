@@ -633,6 +633,15 @@ select.input-invalid:focus {
   100% { transform: translateX(100%); }
 }
 
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--secondary); }
+  50% { opacity: 0.5; box-shadow: 0 0 12px var(--secondary); }
+}
+
+.live-dot {
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [style*='admin-shimmer'] {
     animation: none !important;
@@ -779,6 +788,27 @@ select.input-invalid:focus {
 .badge-high {
   background: var(--danger-soft);
   color: var(--danger);
+}
+
+.badge-critical {
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.badge-warning {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.badge-danger {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.badge-neutral {
+  background: var(--surface-high);
+  color: var(--text-secondary);
 }
 
 .badge-source-mobile {

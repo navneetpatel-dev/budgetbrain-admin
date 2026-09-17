@@ -85,10 +85,18 @@ export default function UserDetailPage() {
       {!loading && !error && user && (
         <>
           <div className="page-header">
-            <Link to="/users" className="back-link">
-              ← Back to Users
-            </Link>
-            <h2 className="page-title">{user.name ?? user.email}</h2>
+            <div>
+              <Link to="/users" className="back-link">
+                ← Back to Users
+              </Link>
+              <h2 className="page-title" style={{ marginTop: 6 }}>{user.name ?? user.email}</h2>
+              <p className="page-subtitle">
+                <span className={`badge badge-${user.role}`} style={{ marginRight: 6 }}>{user.role}</span>
+                {user.isSuspended
+                  ? <span className="badge badge-suspended">Suspended</span>
+                  : <span className="badge badge-active">Active</span>}
+              </p>
+            </div>
           </div>
 
           {actionError && <div className="error">{actionError}</div>}
