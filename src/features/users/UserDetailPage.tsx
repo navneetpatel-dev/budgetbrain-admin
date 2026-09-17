@@ -52,7 +52,7 @@ export default function UserDetailPage() {
     try {
       const updated = await apiPatch<UserDetail>(`/admin/users/${id}`, { role });
       setData(updated);
-      setRole(updated.role);
+      setRole(toEditableRole(updated.role));
     } catch (err) {
       setActionError(err instanceof Error ? err.message : 'Failed to update role');
     } finally {

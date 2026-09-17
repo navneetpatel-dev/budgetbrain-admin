@@ -21,12 +21,11 @@ function Layout({
     <div className="layout">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-mark">
-            <BrandMark size={22} color="var(--on-primary)" strokeWidth={2} />
+          <BrandMark size={36} showBackground={false} />
+          <div className="brand-text">
+            <h1>Budget<span>Brain</span></h1>
+            <p>Admin Portal</p>
           </div>
-          <span style={{ fontWeight: 700, fontSize: 17, color: 'var(--text)' }}>
-            budgetbrain
-          </span>
         </div>
         <nav>
           <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
