@@ -10,6 +10,7 @@ import { AdminLoginSkeleton } from '@/shared/components/Skeleton';
 const NAV_ITEMS = [
   { href: '/', label: 'Dashboard', exact: true },
   { href: '/users', label: 'Users', exact: false },
+  { href: '/subscriptions', label: 'Subscriptions', exact: false },
   { href: '/ai-usage', label: 'AI Usage', exact: false },
   { href: '/support-tickets', label: 'Support', exact: false },
   { href: '/audit-logs', label: 'Audit Logs', exact: false },
