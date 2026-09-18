@@ -2,8 +2,8 @@ const API_URL =
   (typeof process !== 'undefined' ? (process.env.NEXT_PUBLIC_API_URL ?? process.env.VITE_API_URL) : undefined) ??
   (typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_URL : undefined) ??
   'http://localhost:3003/api/v1';
-const TOKEN_KEY = 'admin_token';
 const REFRESH_KEY = 'admin_refresh_token';
+const LEGACY_TOKEN_KEY = 'admin_token';
 
 interface ApiResponse<T> {
   success: boolean;
@@ -13,9 +13,17 @@ interface ApiResponse<T> {
 
 let refreshPromise: Promise<string> | null = null;
 
+/**
+ * The access token is kept in memory only (not localStorage) to shrink the
+ * XSS exposure window — the backend has no httpOnly-cookie login mode (pure
+ * JSON bearer-token API), so this is the strongest hardening achievable
+ * without a backend change. It resets on full page reload; `isLoggedIn()`
+ * and `apiFetch`'s 401-retry silently rehydrate it from the refresh token.
+ */
+let accessToken: string | null = null;
+
 function getToken() {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem(TOKEN_KEY);
+  return accessToken;
 }
 
 function getRefreshToken() {
@@ -24,8 +32,7 @@ function getRefreshToken() {
 }
 
 export function setToken(token: string) {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(TOKEN_KEY, token);
+  accessToken = token;
 }
 
 export function setRefreshToken(token: string) {
@@ -34,9 +41,10 @@ export function setRefreshToken(token: string) {
 }
 
 export function clearToken() {
+  accessToken = null;
   if (typeof window === 'undefined') return;
-  localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_KEY);
+  localStorage.removeItem(LEGACY_TOKEN_KEY);
 }
 
 export async function logout() {
@@ -73,8 +81,13 @@ export async function verifyAdminSession(): Promise<boolean> {
   }
 }
 
+/**
+ * A session exists whenever a refresh token is present, not whenever an
+ * access token is — the access token is in-memory only and is empty on
+ * every fresh page load by design (see `accessToken` above).
+ */
 export function isLoggedIn() {
-  return !!getToken();
+  return !!getRefreshToken();
 }
 
 function redirectToLogin() {
