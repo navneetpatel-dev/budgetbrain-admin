@@ -1,0 +1,32 @@
+export const supportStyles = {
+  view: 'flex flex-col gap-6',
+  header: 'flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border/40',
+  headerLeft: 'flex flex-col gap-1',
+  title: 'text-2xl font-black tracking-tight text-text',
+  subtitle: 'text-sm text-text-secondary',
+  refreshBtn: 'inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-surface border border-border hover:bg-surface-hover text-text transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-sm',
+  tableCard: 'bg-surface rounded-2xl border border-border-subtle shadow-sm overflow-hidden',
+  tableWrapper: 'overflow-x-auto',
+  table: 'w-full text-left border-collapse text-sm',
+  th: 'px-4 py-3 text-xs font-bold uppercase tracking-wider text-text-tertiary bg-surface-low border-b border-border',
+  td: 'px-4 py-3.5 border-b border-border-subtle text-text',
+  tdDate: 'px-4 py-3.5 border-b border-border-subtle text-text-tertiary text-[13px]',
+  tr: 'hover:bg-surface-hover transition-colors',
+  link: 'font-medium text-primary hover:underline',
+  ticketSubject: 'font-semibold text-text text-sm mb-0.5',
+  ticketMessage: 'text-xs text-text-secondary max-w-sm line-clamp-2',
+  selectSm: 'text-xs px-2 py-1 rounded-md border border-border bg-input-bg text-text focus:outline-none focus:ring-1 focus:ring-primary',
+  errorBanner: 'p-3 rounded-lg bg-danger-soft border border-danger/20 text-danger text-sm font-medium mb-4',
+  
+  // Status badges
+  statusOpen: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-danger-soft text-danger',
+  statusInProgress: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-secondary-soft text-secondary',
+  statusResolved: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-success-soft text-success',
+  statusClosed: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-surface-high text-text-secondary',
+
+  // Priority badges
+  priorityLow: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-surface-high text-text-secondary',
+  priorityMedium: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-secondary-soft text-secondary',
+  priorityHigh: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-warning-soft text-warning',
+  priorityCritical: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-danger-soft text-danger',
+} as const;

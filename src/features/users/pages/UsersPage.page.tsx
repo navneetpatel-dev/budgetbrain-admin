@@ -1,0 +1,62 @@
+'use client';
+
+import { useUsersList } from '../hooks/useUsersList.hook';
+import { UsersTable } from '../components/UsersTable.component';
+import { ErrorState, EmptyState } from '@/shared/components/PageStates';
+import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { usersStyles } from '../styles/users.styles';
+
+export function UsersPage() {
+  const {
+    users,
+    total,
+    page,
+    limit,
+    setPage,
+    error,
+    loading,
+    refreshing,
+    reload,
+  } = useUsersList();
+
+  return (
+    <div className={usersStyles.view}>
+      <div className={usersStyles.header}>
+        <div className={usersStyles.headerLeft}>
+          <h2 className={usersStyles.title}>Users</h2>
+          <p className={usersStyles.subtitle}>
+            {total > 0
+              ? `${total.toLocaleString()} registered accounts`
+              : 'Manage all user accounts'}
+          </p>
+        </div>
+        <button
+          type="button"
+          className={usersStyles.refreshBtn}
+          onClick={() => void reload()}
+          disabled={loading || refreshing}
+        >
+          {refreshing ? 'Refreshing…' : '↻ Refresh'}
+        </button>
+      </div>
+
+      {loading && <AdminTableSkeleton rows={8} columns={5} />}
+      {!loading && error && <ErrorState message={error} onRetry={reload} />}
+      {!loading && !error && users.length === 0 && (
+        <EmptyState message="No users found." />
+      )}
+      {!loading && !error && users.length > 0 && (
+        <UsersTable
+          users={users}
+          total={total}
+          page={page}
+          limit={limit}
+          refreshing={refreshing}
+          onPageChange={setPage}
+        />
+      )}
+    </div>
+  );
+}
+
+export default UsersPage;

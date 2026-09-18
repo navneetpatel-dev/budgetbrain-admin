@@ -1,4 +1,7 @@
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3003/api/v1';
+const API_URL =
+  (typeof process !== 'undefined' ? (process.env.NEXT_PUBLIC_API_URL ?? process.env.VITE_API_URL) : undefined) ??
+  (typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_URL : undefined) ??
+  'http://localhost:3003/api/v1';
 const TOKEN_KEY = 'admin_token';
 const REFRESH_KEY = 'admin_refresh_token';
 
@@ -11,22 +14,27 @@ interface ApiResponse<T> {
 let refreshPromise: Promise<string> | null = null;
 
 function getToken() {
+  if (typeof window === 'undefined') return null;
   return localStorage.getItem(TOKEN_KEY);
 }
 
 function getRefreshToken() {
+  if (typeof window === 'undefined') return null;
   return localStorage.getItem(REFRESH_KEY);
 }
 
 export function setToken(token: string) {
+  if (typeof window === 'undefined') return;
   localStorage.setItem(TOKEN_KEY, token);
 }
 
 export function setRefreshToken(token: string) {
+  if (typeof window === 'undefined') return;
   localStorage.setItem(REFRESH_KEY, token);
 }
 
 export function clearToken() {
+  if (typeof window === 'undefined') return;
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_KEY);
 }
@@ -71,7 +79,9 @@ export function isLoggedIn() {
 
 function redirectToLogin() {
   clearToken();
-  window.location.href = '/';
+  if (typeof window !== 'undefined') {
+    window.location.href = '/';
+  }
 }
 
 async function refreshAccessToken(): Promise<string> {

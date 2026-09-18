@@ -1,3 +1,5 @@
+'use client';
+
 interface PaginationProps {
   page: number;
   limit: number;
