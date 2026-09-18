@@ -3,6 +3,7 @@
 import { useDashboard } from '../hooks/useDashboard.hook';
 import { FinancialSection } from '../components/FinancialSection.component';
 import { EngagementSection } from '../components/EngagementSection.component';
+import { FeatureUsageSection } from '../components/FeatureUsageSection.component';
 import { ErrorState } from '@/shared/components/PageStates';
 import { AdminDashboardSkeleton } from '@/shared/components/Skeleton';
 import { dashboardStyles } from '../styles/dashboard.styles';
@@ -40,6 +41,7 @@ export function DashboardPage() {
         <div className={`${dashboardStyles.sections} ${refreshing ? dashboardStyles.refreshing : ''}`}>
           <FinancialSection data={data} />
           <EngagementSection data={data} />
+          <FeatureUsageSection data={data} />
         </div>
       )}
     </div>

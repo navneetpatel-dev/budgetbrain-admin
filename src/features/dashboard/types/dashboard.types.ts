@@ -12,9 +12,20 @@ export interface StatsData {
   totalExpenseVolume: number;
 }
 
+export interface FeatureUsageItem {
+  feature: string;
+  eventsCount: number;
+}
+
+export interface FeatureUsageData {
+  period: string;
+  features: FeatureUsageItem[];
+}
+
 export interface DashboardPageData {
   dashboard: DashboardData;
   stats: StatsData;
+  featureUsage: FeatureUsageData;
 }
 
 export interface BentoStatProps {

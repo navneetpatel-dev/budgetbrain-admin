@@ -1,5 +1,5 @@
 import { apiGet } from '@/shared/services/api';
-import type { DashboardData, StatsData } from '../types/dashboard.types';
+import type { DashboardData, StatsData, FeatureUsageData } from '../types/dashboard.types';
 
 export async function getDashboardSummary(): Promise<DashboardData> {
   return apiGet<DashboardData>('/admin/dashboard');
@@ -7,4 +7,8 @@ export async function getDashboardSummary(): Promise<DashboardData> {
 
 export async function getPlatformStats(): Promise<StatsData> {
   return apiGet<StatsData>('/admin/stats');
+}
+
+export async function getFeatureUsage(): Promise<FeatureUsageData> {
+  return apiGet<FeatureUsageData>('/admin/feature-usage');
 }

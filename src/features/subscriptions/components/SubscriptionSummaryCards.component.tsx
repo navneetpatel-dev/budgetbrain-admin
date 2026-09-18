@@ -38,10 +38,18 @@ export function SubscriptionSummaryCards({ metrics }: SubscriptionSummaryCardsPr
       <BentoStat
         icon="◎"
         iconPodClass={dashboardStyles.podOcean}
-        badge={`${metrics.churnRate}% Churn`}
+        badge="Free → Paid"
         badgeClass={dashboardStyles.badgeSecondary}
         label="Conversion Rate"
         value={`${metrics.conversionRate}%`}
+      />
+      <BentoStat
+        icon="▽"
+        iconPodClass={dashboardStyles.podOcean}
+        badge="Monthly"
+        badgeClass={dashboardStyles.badgeNeutral}
+        label="Churn Rate"
+        value={`${metrics.churnRate}%`}
       />
     </div>
   );

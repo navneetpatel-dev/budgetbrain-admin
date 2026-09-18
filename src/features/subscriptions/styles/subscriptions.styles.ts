@@ -7,7 +7,7 @@ export const subscriptionStyles = {
   refreshBtn: 'inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-surface border border-border hover:bg-surface-hover text-text transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-sm',
   
   // Summary bento cards
-  summaryGrid: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5',
+  summaryGrid: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5',
 
   // Filters
   filterCard: 'bg-surface rounded-2xl border border-border-subtle shadow-sm p-4',
