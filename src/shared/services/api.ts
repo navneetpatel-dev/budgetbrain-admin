@@ -63,8 +63,12 @@ export async function logout() {
 }
 
 export async function verifyAdminSession(): Promise<boolean> {
-  const token = getToken();
-  if (!token) return false;
+  // Deliberately does NOT bail out when the in-memory access token is empty
+  // (e.g. right after a page reload) — apiFetch's own 401-retry path will
+  // transparently exchange the localStorage refresh token for a new access
+  // token if one exists. Bailing here before that could run was a real bug:
+  // it logged every admin out on every page refresh.
+  if (!isLoggedIn()) return false;
   try {
     const user = await apiGet<{ role: string }>('/auth/me');
     if (user.role !== 'admin') {
