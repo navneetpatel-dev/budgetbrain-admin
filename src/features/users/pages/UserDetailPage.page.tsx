@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useParams } from 'react-router-dom';
 import { useUserDetail } from '../hooks/useUserDetail.hook';
 import { UserProfileCard } from '../components/UserProfileCard.component';
 import { UserActionsCard } from '../components/UserActionsCard.component';
@@ -15,15 +14,7 @@ interface UserDetailPageProps {
   id?: string;
 }
 
-export function UserDetailPage({ id: propId }: UserDetailPageProps = {}) {
-  let routeParams: { id?: string } = {};
-  try {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    routeParams = useParams<{ id: string }>();
-  } catch {
-    routeParams = {};
-  }
-  const id = propId ?? routeParams?.id;
+export function UserDetailPage({ id }: UserDetailPageProps = {}) {
 
   const {
     user,

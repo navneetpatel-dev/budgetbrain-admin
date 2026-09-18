@@ -6,7 +6,7 @@ Web dashboard for managing ExpenseFlow users and audit logs.
 
 ## Stack
 
-- React 19, TypeScript, Vite
+- Next.js (App Router), React 19, TypeScript, Tailwind
 - Calls ExpenseFlow API (`/api/v1/admin/*`)
 
 ## Prerequisites
@@ -39,18 +39,21 @@ Open http://localhost:5173
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `VITE_API_URL` | `http://localhost:3000/api/v1` | ExpenseFlow API base URL |
+| `NEXT_PUBLIC_API_URL` | `http://localhost:3000/api/v1` | ExpenseFlow API base URL |
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start dev server |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build |
+| `npm run dev` | Start dev server (`next dev`) |
+| `npm run build` | Production build (`next build`) |
+| `npm run start` | Serve the production build (`next start`) |
+| `npm run lint` | Lint the codebase |
 
 ## Features
 
-- Dashboard (users, MRR, conversion, AI usage)
+- Dashboard (users, MRR, conversion, churn, AI usage, feature usage)
 - User management
+- Subscription monitoring & revenue analytics
+- Support tickets
 - Audit logs

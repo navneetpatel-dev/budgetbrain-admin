@@ -1,7 +1,4 @@
-const API_URL =
-  (typeof process !== 'undefined' ? (process.env.NEXT_PUBLIC_API_URL ?? process.env.VITE_API_URL) : undefined) ??
-  (typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_URL : undefined) ??
-  'http://localhost:3003/api/v1';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3003/api/v1';
 const REFRESH_KEY = 'admin_refresh_token';
 const LEGACY_TOKEN_KEY = 'admin_token';
 

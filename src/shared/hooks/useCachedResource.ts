@@ -26,7 +26,9 @@ export function useCachedResource<T>(
   const [loading, setLoading] = useState(cached === undefined);
   const [refreshing, setRefreshing] = useState(false);
   const fetcherRef = useRef(fetcher);
-  fetcherRef.current = fetcher;
+  useEffect(() => {
+    fetcherRef.current = fetcher;
+  });
   const requestId = useRef(0);
   const visibleDataRef = useRef<T | undefined>(cached);
 
