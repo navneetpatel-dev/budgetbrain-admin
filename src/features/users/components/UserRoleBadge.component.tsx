@@ -5,9 +5,17 @@ interface UserRoleBadgeProps {
 }
 
 export function UserRoleBadge({ role }: UserRoleBadgeProps) {
-  const isAdmin = role.toLowerCase() === 'admin';
+  const normalized = role.toLowerCase();
+  let badgeClass: string = usersStyles.badgeRole;
+  if (normalized === 'admin') {
+    badgeClass = usersStyles.badgeRoleAdmin;
+  } else if (normalized === 'premium' || normalized === 'pro') {
+    badgeClass = usersStyles.badgeRolePro;
+  } else if (normalized === 'lifetime') {
+    badgeClass = usersStyles.badgeRoleLifetime;
+  }
   return (
-    <span className={isAdmin ? usersStyles.badgeRoleAdmin : usersStyles.badgeRole}>
+    <span className={badgeClass}>
       {role}
     </span>
   );

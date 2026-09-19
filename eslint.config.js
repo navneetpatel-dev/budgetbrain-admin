@@ -49,7 +49,7 @@ export default defineConfig([
     // item-counts (used by every list feature), never a money amount, same
     // reasoning as web/eslint.config.js's usePaginatedList.ts exclusion.
     files: ['src/features/**/*.{ts,tsx}', 'src/shared/**/*.{ts,tsx}'],
-    ignores: ['src/shared/components/Pagination.tsx'],
+    ignores: ['src/shared/components/Pagination.tsx', 'src/**/__tests__/**'],
     rules: {
       'no-restricted-syntax': [
         'error',

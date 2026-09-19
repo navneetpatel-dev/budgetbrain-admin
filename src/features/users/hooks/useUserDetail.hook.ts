@@ -5,10 +5,13 @@ import { useCachedResource } from '@/shared/hooks/useCachedResource';
 import { getUserById, updateUserRole, updateUserSuspension } from '../api/users.api';
 import type { UserDetail, UserRole } from '../types/users.types';
 
-export const ROLES: UserRole[] = ['free', 'admin'];
+export const ROLES: UserRole[] = ['free', 'premium', 'lifetime', 'admin'];
 
 export function toEditableRole(role: string): UserRole {
-  return role === 'admin' ? 'admin' : 'free';
+  if (role === 'admin' || role === 'premium' || role === 'lifetime') {
+    return role;
+  }
+  return 'free';
 }
 
 export function useUserDetail(id?: string) {

@@ -20,6 +20,8 @@ export const usersStyles = {
   badgeSuspended: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-danger-soft text-danger',
   badgeRole: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-primary-soft text-primary capitalize',
   badgeRoleAdmin: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-violet/15 text-violet uppercase tracking-wide',
+  badgeRolePro: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-amber-500/15 text-amber-500 uppercase tracking-wide',
+  badgeRoleLifetime: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-500 uppercase tracking-wide',
   detailGrid: 'grid grid-cols-1 md:grid-cols-2 gap-6',
   sectionTitle: 'text-base font-bold text-text mb-4 pb-2 border-b border-border-subtle',
   dl: 'grid grid-cols-1 gap-y-3 sm:grid-cols-[140px_1fr] sm:gap-y-3.5 text-sm',
