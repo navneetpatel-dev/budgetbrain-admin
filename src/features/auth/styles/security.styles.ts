@@ -1,0 +1,15 @@
+export const securityStyles = {
+  view: 'flex flex-col gap-6 max-w-xl',
+  header: 'flex flex-col gap-1 pb-2 border-b border-border/40',
+  title: 'text-2xl font-black tracking-tight text-text',
+  subtitle: 'text-sm text-text-secondary',
+  card: 'bg-surface rounded-2xl border border-border-subtle shadow-sm p-6 flex flex-col gap-4',
+  statusPillEnabled: 'inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-secondary-soft text-secondary border border-secondary/20 w-fit',
+  statusPillDisabled: 'inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-surface-low text-text-tertiary border border-border w-fit',
+  qrImage: 'w-48 h-48 rounded-lg border border-border-subtle self-center bg-white p-2',
+  secretText: 'text-xs font-mono text-text-tertiary text-center break-all',
+  input: 'w-full px-3 py-2 rounded-lg border border-border bg-surface text-text text-center text-lg tracking-[0.3em] font-mono focus:outline-none focus:ring-2 focus:ring-primary/40',
+  button: 'inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-sm',
+  errorBanner: 'text-sm font-medium text-danger bg-danger-soft border border-danger/20 rounded-lg px-3 py-2',
+  successBanner: 'text-sm font-medium text-secondary bg-secondary-soft border border-secondary/20 rounded-lg px-3 py-2',
+} as const;

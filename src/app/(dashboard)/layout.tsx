@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { href: '/ai-usage', label: 'AI Usage', exact: false },
   { href: '/support-tickets', label: 'Support', exact: false },
   { href: '/audit-logs', label: 'Audit Logs', exact: false },
+  { href: '/security', label: 'Security', exact: false },
 ];
 
 export default function DashboardLayout({

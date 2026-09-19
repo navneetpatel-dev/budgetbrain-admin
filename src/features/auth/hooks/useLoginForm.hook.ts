@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { loginAdmin } from '../api/login.api';
+import { loginAdmin, verifyMfaCode } from '../api/login.api';
 import { FieldLimits, ValidationMessages } from '@/shared/validation/fieldLimits';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,6 +21,22 @@ export function useLoginForm(onLogin?: () => void) {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
   const [loading, setLoading] = useState(false);
+
+  // Second-step state, populated once the backend responds with mfaRequired.
+  const [mfaToken, setMfaToken] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState('');
+  const [mfaError, setMfaError] = useState('');
+
+  const completeNavigation = () => {
+    if (onLogin) {
+      onLogin();
+    }
+    if (router) {
+      router.push('/');
+    } else if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -48,17 +64,35 @@ export function useLoginForm(onLogin?: () => void) {
 
     setLoading(true);
     try {
-      await loginAdmin(trimmedEmail, password);
-      if (onLogin) {
-        onLogin();
+      const result = await loginAdmin(trimmedEmail, password);
+      if (result.mfaRequired) {
+        setMfaToken(result.mfaToken);
+        return;
       }
-      if (router) {
-        router.push('/');
-      } else if (typeof window !== 'undefined') {
-        window.location.href = '/';
-      }
+      completeNavigation();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMfaSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setMfaError('');
+    if (!mfaToken) return;
+
+    if (!/^\d{6}$/.test(mfaCode)) {
+      setMfaError('Enter the 6-digit code from your authenticator app.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await verifyMfaCode(mfaToken, mfaCode);
+      completeNavigation();
+    } catch (err) {
+      setMfaError(err instanceof Error ? err.message : 'Verification failed');
     } finally {
       setLoading(false);
     }
@@ -74,6 +108,11 @@ export function useLoginForm(onLogin?: () => void) {
     setFieldErrors((f) => ({ ...f, password: undefined }));
   };
 
+  const handleMfaCodeChange = (val: string) => {
+    setMfaCode(val);
+    setMfaError('');
+  };
+
   return {
     email,
     password,
@@ -83,5 +122,11 @@ export function useLoginForm(onLogin?: () => void) {
     handleSubmit,
     handleEmailChange,
     handlePasswordChange,
+    // Second-step (TOTP) state — LoginForm renders the code-entry form when mfaToken is set.
+    mfaRequired: mfaToken !== null,
+    mfaCode,
+    mfaError,
+    handleMfaSubmit,
+    handleMfaCodeChange,
   };
 }

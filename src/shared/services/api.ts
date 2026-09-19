@@ -190,11 +190,48 @@ export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
   return apiFetch<T>(path, { method: 'PATCH', body: JSON.stringify(body) });
 }
 
-export async function login(email: string, password: string) {
+type LoginResult =
+  | { mfaRequired: true; mfaToken: string }
+  | { mfaRequired?: false; role: string };
+
+function applySessionTokens(data: { accessToken: string; refreshToken: string; user: { role: string } }) {
+  if (data.user?.role !== 'admin') {
+    throw new Error('Admin access required');
+  }
+  setToken(data.accessToken);
+  setRefreshToken(data.refreshToken);
+  return data.user;
+}
+
+export async function login(email: string, password: string): Promise<LoginResult> {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
+  });
+
+  const json: ApiResponse<
+    | { mfaRequired: true; mfaToken: string }
+    | { accessToken: string; refreshToken: string; user: { role: string } }
+  > = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.error?.message ?? 'Login failed');
+  }
+
+  if ('mfaRequired' in json.data && json.data.mfaRequired) {
+    return { mfaRequired: true, mfaToken: json.data.mfaToken };
+  }
+
+  const user = applySessionTokens(json.data as { accessToken: string; refreshToken: string; user: { role: string } });
+  return { role: user.role };
+}
+
+/** Completes login for a TOTP-enabled admin — the second step after `login()` returns mfaRequired. */
+export async function completeMfaLogin(mfaToken: string, code: string) {
+  const res = await fetch(`${API_URL}/auth/login/mfa`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mfaToken, code }),
   });
 
   const json: ApiResponse<{
@@ -203,14 +240,8 @@ export async function login(email: string, password: string) {
     user: { role: string };
   }> = await res.json();
   if (!res.ok || !json.success) {
-    throw new Error(json.error?.message ?? 'Login failed');
+    throw new Error(json.error?.message ?? 'Verification failed');
   }
 
-  if (json.data.user?.role !== 'admin') {
-    throw new Error('Admin access required');
-  }
-
-  setToken(json.data.accessToken);
-  setRefreshToken(json.data.refreshToken);
-  return json.data.user;
+  return applySessionTokens(json.data);
 }

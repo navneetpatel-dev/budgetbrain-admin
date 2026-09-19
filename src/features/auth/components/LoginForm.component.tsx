@@ -14,6 +14,11 @@ export interface LoginFormProps {
   onSubmit: (e: FormEvent) => void;
   onEmailChange: (val: string) => void;
   onPasswordChange: (val: string) => void;
+  mfaRequired: boolean;
+  mfaCode: string;
+  mfaError: string;
+  onMfaSubmit: (e: FormEvent) => void;
+  onMfaCodeChange: (val: string) => void;
 }
 
 export function LoginForm({
@@ -25,7 +30,65 @@ export function LoginForm({
   onSubmit,
   onEmailChange,
   onPasswordChange,
+  mfaRequired,
+  mfaCode,
+  mfaError,
+  onMfaSubmit,
+  onMfaCodeChange,
 }: LoginFormProps) {
+  if (mfaRequired) {
+    return (
+      <div className={loginStyles.page}>
+        <div className={loginStyles.hero}>
+          <div className={loginStyles.logoWrapper}>
+            <BrandMark size={32} />
+          </div>
+          <h1 className={loginStyles.title}>
+            Budget<span className={loginStyles.titleAccent}>Brain</span>
+          </h1>
+          <div className={loginStyles.divider} />
+          <p className={loginStyles.subtitle}>Track smarter. Save better.</p>
+        </div>
+
+        <div className={loginStyles.panel}>
+          <h2 className={loginStyles.panelTitle}>Two-factor verification</h2>
+          <p className={loginStyles.subtitle}>Enter the 6-digit code from your authenticator app.</p>
+
+          <form onSubmit={onMfaSubmit} className={loginStyles.form} noValidate>
+            {mfaError ? (
+              <div className={loginStyles.errorBanner} role="alert">
+                {mfaError}
+              </div>
+            ) : null}
+
+            <div className={loginStyles.fieldGroup}>
+              <label htmlFor="mfa-code" className={loginStyles.label}>
+                Authenticator code
+              </label>
+              <input
+                id="mfa-code"
+                type="text"
+                inputMode="numeric"
+                pattern="\d{6}"
+                maxLength={6}
+                autoComplete="one-time-code"
+                className={mfaError ? loginStyles.inputInvalid : loginStyles.input}
+                placeholder="123456"
+                value={mfaCode}
+                onChange={(e) => onMfaCodeChange(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                autoFocus
+              />
+            </div>
+
+            <button type="submit" disabled={loading} className={loginStyles.submitButton}>
+              {loading ? 'Verifying…' : 'Verify'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={loginStyles.page}>
       <div className={loginStyles.hero}>

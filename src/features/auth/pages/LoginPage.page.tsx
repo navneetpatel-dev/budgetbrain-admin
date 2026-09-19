@@ -14,6 +14,11 @@ export function LoginPage({ onLogin }: { onLogin?: () => void } = {}) {
     handleSubmit,
     handleEmailChange,
     handlePasswordChange,
+    mfaRequired,
+    mfaCode,
+    mfaError,
+    handleMfaSubmit,
+    handleMfaCodeChange,
   } = useLoginForm(onLogin);
 
   return (
@@ -26,6 +31,11 @@ export function LoginPage({ onLogin }: { onLogin?: () => void } = {}) {
       onSubmit={handleSubmit}
       onEmailChange={handleEmailChange}
       onPasswordChange={handlePasswordChange}
+      mfaRequired={mfaRequired}
+      mfaCode={mfaCode}
+      mfaError={mfaError}
+      onMfaSubmit={handleMfaSubmit}
+      onMfaCodeChange={handleMfaCodeChange}
     />
   );
 }
