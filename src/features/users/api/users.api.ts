@@ -1,8 +1,25 @@
 import { apiGet, apiPatch } from '@/shared/services/api';
 import type { UsersResponse, UserDetail } from '../types/users.types';
 
-export async function getUsers(page = 1, limit = 20): Promise<UsersResponse> {
-  return apiGet<UsersResponse>(`/admin/users?page=${page}&limit=${limit}`);
+export interface GetUsersParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  role?: string;
+  isSuspended?: boolean | string;
+}
+
+export async function getUsers(params: GetUsersParams = {}): Promise<UsersResponse> {
+  const { page = 1, limit = 20, search, role, isSuspended } = params;
+  const query = new URLSearchParams();
+  query.set('page', String(page));
+  query.set('limit', String(limit));
+  if (search && search.trim()) query.set('search', search.trim());
+  if (role && role !== 'all') query.set('role', role);
+  if (isSuspended !== undefined && isSuspended !== 'all') {
+    query.set('isSuspended', String(isSuspended));
+  }
+  return apiGet<UsersResponse>(`/admin/users?${query.toString()}`);
 }
 
 export async function getUserById(id: string): Promise<UserDetail> {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useUsersList } from '../hooks/useUsersList.hook';
+import { UsersFilterBar } from '../components/UsersFilterBar.component';
 import { UsersTable } from '../components/UsersTable.component';
 import { ErrorState, EmptyState } from '@/shared/components/PageStates';
 import { AdminTableSkeleton } from '@/shared/components/Skeleton';
@@ -13,6 +14,12 @@ export function UsersPage() {
     page,
     limit,
     setPage,
+    search,
+    setSearch,
+    role,
+    setRole,
+    isSuspended,
+    setIsSuspended,
     error,
     loading,
     refreshing,
@@ -39,6 +46,15 @@ export function UsersPage() {
           {refreshing ? 'Refreshing…' : '↻ Refresh'}
         </button>
       </div>
+
+      <UsersFilterBar
+        search={search}
+        role={role}
+        isSuspended={isSuspended}
+        onSearchChange={setSearch}
+        onRoleChange={setRole}
+        onSuspendedChange={setIsSuspended}
+      />
 
       {loading && <AdminTableSkeleton rows={8} columns={5} />}
       {!loading && error && <ErrorState message={error} onRetry={reload} />}

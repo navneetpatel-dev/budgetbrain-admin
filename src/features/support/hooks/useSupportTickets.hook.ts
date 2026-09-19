@@ -7,12 +7,13 @@ import type { TicketsResponse, TicketStatus } from '../types/support.types';
 
 export function useSupportTickets(initialPage = 1, limit = 20) {
   const [page, setPage] = useState(initialPage);
+  const [status, setStatus] = useState('all');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState('');
 
   const { data, error, loading, refreshing, reload, setData } = useCachedResource<TicketsResponse>(
-    `support-tickets:${page}`,
-    () => getSupportTickets(page, limit)
+    `support-tickets:${page}:${status}`,
+    () => getSupportTickets(page, limit, status !== 'all' ? status : undefined)
   );
 
   const tickets = data?.tickets ?? [];
@@ -43,6 +44,11 @@ export function useSupportTickets(initialPage = 1, limit = 20) {
     page,
     limit,
     setPage,
+    status,
+    setStatus: (newStatus: string) => {
+      setStatus(newStatus);
+      setPage(1);
+    },
     updatingId,
     actionError,
     updateStatus,

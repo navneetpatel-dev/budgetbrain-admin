@@ -1,6 +1,7 @@
 'use client';
 
 import { useSupportTickets } from '../hooks/useSupportTickets.hook';
+import { SupportTicketsFilterBar } from '../components/SupportTicketsFilterBar.component';
 import { TicketsTable } from '../components/TicketsTable.component';
 import { ErrorState, EmptyState } from '@/shared/components/PageStates';
 import { AdminTableSkeleton } from '@/shared/components/Skeleton';
@@ -13,6 +14,8 @@ export function SupportTicketsPage() {
     page,
     limit,
     setPage,
+    status,
+    setStatus,
     updatingId,
     actionError,
     updateStatus,
@@ -42,6 +45,11 @@ export function SupportTicketsPage() {
           {refreshing ? 'Refreshing…' : '↻ Refresh'}
         </button>
       </div>
+
+      <SupportTicketsFilterBar
+        status={status}
+        onStatusChange={setStatus}
+      />
 
       {actionError && <div className={supportStyles.errorBanner}>{actionError}</div>}
       {loading && <AdminTableSkeleton rows={8} columns={5} />}
