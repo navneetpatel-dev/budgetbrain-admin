@@ -10,11 +10,23 @@ export function useSupportTickets(initialPage = 1, limit = 20) {
   const [status, setStatus] = useState('all');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState('');
+  const [sortBy, setSortBy] = useState('createdAt');
+  const [sortDir, setSortDir] = useState<'ASC' | 'DESC'>('DESC');
 
   const { data, error, loading, refreshing, reload, setData } = useCachedResource<TicketsResponse>(
-    `support-tickets:${page}:${status}`,
-    () => getSupportTickets(page, limit, status !== 'all' ? status : undefined)
+    `support-tickets:${page}:${status}:${sortBy}:${sortDir}`,
+    () => getSupportTickets(page, limit, status !== 'all' ? status : undefined, sortBy, sortDir)
   );
+
+  const handleSort = (column: string) => {
+    if (sortBy === column) {
+      setSortDir((d) => (d === 'ASC' ? 'DESC' : 'ASC'));
+    } else {
+      setSortBy(column);
+      setSortDir('ASC');
+    }
+    setPage(1);
+  };
 
   const tickets = data?.tickets ?? [];
   const total = data?.total ?? 0;
@@ -49,6 +61,9 @@ export function useSupportTickets(initialPage = 1, limit = 20) {
       setStatus(newStatus);
       setPage(1);
     },
+    sortBy,
+    sortDir,
+    handleSort,
     updatingId,
     actionError,
     updateStatus,

@@ -30,6 +30,9 @@ export function UsersPage() {
     setRole,
     isSuspended,
     setIsSuspended,
+    sortBy,
+    sortDir,
+    handleSort,
     error,
     loading,
     refreshing,
@@ -88,6 +91,9 @@ export function UsersPage() {
           page={page}
           limit={limit}
           refreshing={refreshing}
+          sortBy={sortBy}
+          sortDir={sortDir}
+          onSort={handleSort}
           onPageChange={setPage}
         />
       )}

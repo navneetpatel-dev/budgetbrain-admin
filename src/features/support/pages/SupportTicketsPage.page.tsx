@@ -26,6 +26,9 @@ export function SupportTicketsPage() {
     setPage,
     status,
     setStatus,
+    sortBy,
+    sortDir,
+    handleSort,
     updatingId,
     actionError,
     updateStatus,
@@ -85,6 +88,9 @@ export function SupportTicketsPage() {
           limit={limit}
           refreshing={refreshing}
           updatingId={updatingId}
+          sortBy={sortBy}
+          sortDir={sortDir}
+          onSort={handleSort}
           onPageChange={setPage}
           onUpdateStatus={updateStatus}
         />

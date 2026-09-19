@@ -3,6 +3,7 @@
 import type { SupportTicket, TicketStatus } from '../types/support.types';
 import { TicketRow } from './TicketRow.component';
 import Pagination from '@/shared/components/Pagination';
+import { SortableHeader } from '@/shared/components/SortableHeader';
 import { supportStyles } from '../styles/support.styles';
 
 interface TicketsTableProps {
@@ -12,6 +13,9 @@ interface TicketsTableProps {
   limit: number;
   refreshing: boolean;
   updatingId: string | null;
+  sortBy: string;
+  sortDir: 'ASC' | 'DESC';
+  onSort: (column: string) => void;
   onPageChange: (newPage: number) => void;
   onUpdateStatus: (id: string, status: TicketStatus) => void;
 }
@@ -23,6 +27,9 @@ export function TicketsTable({
   limit,
   refreshing,
   updatingId,
+  sortBy,
+  sortDir,
+  onSort,
   onPageChange,
   onUpdateStatus,
 }: TicketsTableProps) {
@@ -34,9 +41,9 @@ export function TicketsTable({
             <tr>
               <th className={supportStyles.th}>User</th>
               <th className={supportStyles.th}>Subject</th>
-              <th className={supportStyles.th}>Priority</th>
-              <th className={supportStyles.th}>Status</th>
-              <th className={supportStyles.th}>Created</th>
+              <SortableHeader label="Priority" column="priority" sortBy={sortBy} sortDir={sortDir} onSort={onSort} className={supportStyles.th} />
+              <SortableHeader label="Status" column="status" sortBy={sortBy} sortDir={sortDir} onSort={onSort} className={supportStyles.th} />
+              <SortableHeader label="Created" column="createdAt" sortBy={sortBy} sortDir={sortDir} onSort={onSort} className={supportStyles.th} />
             </tr>
           </thead>
           <tbody>

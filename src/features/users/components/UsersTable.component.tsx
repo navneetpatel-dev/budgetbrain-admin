@@ -3,6 +3,7 @@
 import type { User } from '../types/users.types';
 import { UserRow } from './UserRow.component';
 import Pagination from '@/shared/components/Pagination';
+import { SortableHeader } from '@/shared/components/SortableHeader';
 import { usersStyles } from '../styles/users.styles';
 
 interface UsersTableProps {
@@ -11,6 +12,9 @@ interface UsersTableProps {
   page: number;
   limit: number;
   refreshing: boolean;
+  sortBy: string;
+  sortDir: 'ASC' | 'DESC';
+  onSort: (column: string) => void;
   onPageChange: (newPage: number) => void;
 }
 
@@ -20,6 +24,9 @@ export function UsersTable({
   page,
   limit,
   refreshing,
+  sortBy,
+  sortDir,
+  onSort,
   onPageChange,
 }: UsersTableProps) {
   return (
@@ -29,10 +36,10 @@ export function UsersTable({
           <thead>
             <tr>
               <th className={usersStyles.th}>Name</th>
-              <th className={usersStyles.th}>Email</th>
-              <th className={usersStyles.th}>Role</th>
-              <th className={usersStyles.th}>Status</th>
-              <th className={usersStyles.th}>Joined</th>
+              <SortableHeader label="Email" column="email" sortBy={sortBy} sortDir={sortDir} onSort={onSort} className={usersStyles.th} />
+              <SortableHeader label="Role" column="role" sortBy={sortBy} sortDir={sortDir} onSort={onSort} className={usersStyles.th} />
+              <SortableHeader label="Status" column="isSuspended" sortBy={sortBy} sortDir={sortDir} onSort={onSort} className={usersStyles.th} />
+              <SortableHeader label="Joined" column="createdAt" sortBy={sortBy} sortDir={sortDir} onSort={onSort} className={usersStyles.th} />
             </tr>
           </thead>
           <tbody>

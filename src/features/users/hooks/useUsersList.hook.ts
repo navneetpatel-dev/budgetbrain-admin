@@ -10,9 +10,11 @@ export function useUsersList(initialPage = 1, limit = 20) {
   const [search, setSearch] = useState('');
   const [role, setRole] = useState('all');
   const [isSuspended, setIsSuspended] = useState<'all' | 'true' | 'false'>('all');
+  const [sortBy, setSortBy] = useState('createdAt');
+  const [sortDir, setSortDir] = useState<'ASC' | 'DESC'>('DESC');
 
   const { data, error, loading, refreshing, reload } = useCachedResource<UsersResponse>(
-    `users:${page}:${search}:${role}:${isSuspended}`,
+    `users:${page}:${search}:${role}:${isSuspended}:${sortBy}:${sortDir}`,
     () =>
       getUsers({
         page,
@@ -20,8 +22,20 @@ export function useUsersList(initialPage = 1, limit = 20) {
         search: search.trim() || undefined,
         role: role !== 'all' ? role : undefined,
         isSuspended: isSuspended === 'true' ? true : isSuspended === 'false' ? false : undefined,
+        sortBy,
+        sortDir,
       })
   );
+
+  const handleSort = (column: string) => {
+    if (sortBy === column) {
+      setSortDir((d) => (d === 'ASC' ? 'DESC' : 'ASC'));
+    } else {
+      setSortBy(column);
+      setSortDir('ASC');
+    }
+    setPage(1);
+  };
 
   const users = data?.users ?? [];
   const total = data?.total ?? 0;
@@ -47,6 +61,9 @@ export function useUsersList(initialPage = 1, limit = 20) {
       setIsSuspended(val);
       setPage(1);
     },
+    sortBy,
+    sortDir,
+    handleSort,
     error,
     loading,
     refreshing,

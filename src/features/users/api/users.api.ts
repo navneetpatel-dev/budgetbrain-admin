@@ -7,10 +7,12 @@ export interface GetUsersParams {
   search?: string;
   role?: string;
   isSuspended?: boolean | string;
+  sortBy?: string;
+  sortDir?: 'ASC' | 'DESC';
 }
 
 export async function getUsers(params: GetUsersParams = {}): Promise<UsersResponse> {
-  const { page = 1, limit = 20, search, role, isSuspended } = params;
+  const { page = 1, limit = 20, search, role, isSuspended, sortBy, sortDir } = params;
   const query = new URLSearchParams();
   query.set('page', String(page));
   query.set('limit', String(limit));
@@ -19,6 +21,8 @@ export async function getUsers(params: GetUsersParams = {}): Promise<UsersRespon
   if (isSuspended !== undefined && isSuspended !== 'all') {
     query.set('isSuspended', String(isSuspended));
   }
+  if (sortBy) query.set('sortBy', sortBy);
+  if (sortDir) query.set('sortDir', sortDir);
   return apiGet<UsersResponse>(`/admin/users?${query.toString()}`);
 }
 
