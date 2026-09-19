@@ -5,7 +5,17 @@ import { UsersFilterBar } from '../components/UsersFilterBar.component';
 import { UsersTable } from '../components/UsersTable.component';
 import { ErrorState, EmptyState } from '@/shared/components/PageStates';
 import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { exportRowsToCsv, type CsvColumn } from '@/shared/utils/exportToCsv';
 import { usersStyles } from '../styles/users.styles';
+import type { User } from '../types/users.types';
+
+const USER_CSV_COLUMNS: CsvColumn<User>[] = [
+  { key: 'name', label: 'Name', format: (u) => u.name ?? '' },
+  { key: 'email', label: 'Email' },
+  { key: 'role', label: 'Role' },
+  { key: 'isSuspended', label: 'Status', format: (u) => (u.isSuspended ? 'Suspended' : 'Active') },
+  { key: 'createdAt', label: 'Joined', format: (u) => new Date(u.createdAt).toISOString().slice(0, 10) },
+];
 
 export function UsersPage() {
   const {
@@ -37,14 +47,24 @@ export function UsersPage() {
               : 'Manage all user accounts'}
           </p>
         </div>
-        <button
-          type="button"
-          className={usersStyles.refreshBtn}
-          onClick={() => void reload()}
-          disabled={loading || refreshing}
-        >
-          {refreshing ? 'Refreshing…' : '↻ Refresh'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className={usersStyles.refreshBtn}
+            onClick={() => exportRowsToCsv(users, USER_CSV_COLUMNS, 'users')}
+            disabled={loading || users.length === 0}
+          >
+            ⬇ Export CSV
+          </button>
+          <button
+            type="button"
+            className={usersStyles.refreshBtn}
+            onClick={() => void reload()}
+            disabled={loading || refreshing}
+          >
+            {refreshing ? 'Refreshing…' : '↻ Refresh'}
+          </button>
+        </div>
       </div>
 
       <UsersFilterBar

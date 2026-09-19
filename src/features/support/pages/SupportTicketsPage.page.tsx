@@ -5,7 +5,17 @@ import { SupportTicketsFilterBar } from '../components/SupportTicketsFilterBar.c
 import { TicketsTable } from '../components/TicketsTable.component';
 import { ErrorState, EmptyState } from '@/shared/components/PageStates';
 import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { exportRowsToCsv, type CsvColumn } from '@/shared/utils/exportToCsv';
 import { supportStyles } from '../styles/support.styles';
+import { STATUS_LABEL, type SupportTicket } from '../types/support.types';
+
+const TICKET_CSV_COLUMNS: CsvColumn<SupportTicket>[] = [
+  { key: 'user', label: 'User', format: (t) => t.user?.email ?? t.userId },
+  { key: 'subject', label: 'Subject' },
+  { key: 'priority', label: 'Priority' },
+  { key: 'status', label: 'Status', format: (t) => STATUS_LABEL[t.status] },
+  { key: 'createdAt', label: 'Created', format: (t) => new Date(t.createdAt).toISOString().slice(0, 10) },
+];
 
 export function SupportTicketsPage() {
   const {
@@ -36,14 +46,24 @@ export function SupportTicketsPage() {
               : 'Manage user support requests'}
           </p>
         </div>
-        <button
-          type="button"
-          className={supportStyles.refreshBtn}
-          onClick={() => void reload()}
-          disabled={loading || refreshing}
-        >
-          {refreshing ? 'Refreshing…' : '↻ Refresh'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className={supportStyles.refreshBtn}
+            onClick={() => exportRowsToCsv(tickets, TICKET_CSV_COLUMNS, 'support-tickets')}
+            disabled={loading || tickets.length === 0}
+          >
+            ⬇ Export CSV
+          </button>
+          <button
+            type="button"
+            className={supportStyles.refreshBtn}
+            onClick={() => void reload()}
+            disabled={loading || refreshing}
+          >
+            {refreshing ? 'Refreshing…' : '↻ Refresh'}
+          </button>
+        </div>
       </div>
 
       <SupportTicketsFilterBar

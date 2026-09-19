@@ -5,7 +5,20 @@ import { AuditFilterBar } from '../components/AuditFilterBar.component';
 import { AuditLogsTable } from '../components/AuditLogsTable.component';
 import { ErrorState, EmptyState } from '@/shared/components/PageStates';
 import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { exportRowsToCsv, type CsvColumn } from '@/shared/utils/exportToCsv';
 import { auditStyles } from '../styles/audit.styles';
+import type { AuditLog } from '../types/audit.types';
+
+const AUDIT_CSV_COLUMNS: CsvColumn<AuditLog>[] = [
+  { key: 'createdAt', label: 'Timestamp', format: (l) => new Date(l.createdAt).toISOString() },
+  { key: 'user', label: 'User', format: (l) => l.user?.email ?? '' },
+  { key: 'action', label: 'Action' },
+  { key: 'resource', label: 'Resource' },
+  { key: 'source', label: 'Source' },
+  { key: 'outcome', label: 'Outcome' },
+  { key: 'severity', label: 'Severity' },
+  { key: 'ipAddress', label: 'IP Address', format: (l) => l.ipAddress ?? '' },
+];
 
 export function AuditLogsPage() {
   const {
@@ -39,14 +52,24 @@ export function AuditLogsPage() {
               : 'Full platform activity trail'}
           </p>
         </div>
-        <button
-          type="button"
-          className={auditStyles.refreshBtn}
-          onClick={() => void reload()}
-          disabled={loading || refreshing}
-        >
-          {refreshing ? 'Refreshing…' : '↻ Refresh'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className={auditStyles.refreshBtn}
+            onClick={() => exportRowsToCsv(logs, AUDIT_CSV_COLUMNS, 'audit-logs')}
+            disabled={loading || logs.length === 0}
+          >
+            ⬇ Export CSV
+          </button>
+          <button
+            type="button"
+            className={auditStyles.refreshBtn}
+            onClick={() => void reload()}
+            disabled={loading || refreshing}
+          >
+            {refreshing ? 'Refreshing…' : '↻ Refresh'}
+          </button>
+        </div>
       </div>
 
       <AuditFilterBar
