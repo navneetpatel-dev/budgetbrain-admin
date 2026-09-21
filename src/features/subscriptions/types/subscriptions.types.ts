@@ -1,11 +1,10 @@
 export type SubscriptionPlan = 'monthly' | 'yearly' | 'lifetime';
 export type SubscriptionStatus = 'active' | 'in_grace_period' | 'cancelled' | 'expired';
-export type SubscriptionStore = 'app_store' | 'play_store' | 'stripe' | 'manual';
+export type SubscriptionStore = 'razorpay' | 'promotional';
 
 export interface AdminSubscription {
   id: string;
   userId: string;
-  revenuecatAppUserId: string;
   productId: string;
   entitlementId: string;
   status: SubscriptionStatus;
