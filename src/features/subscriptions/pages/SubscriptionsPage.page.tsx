@@ -26,6 +26,7 @@ export function SubscriptionsPage() {
     loading,
     refreshing,
     reload,
+    hasData,
   } = useSubscriptions();
 
   return (
@@ -60,12 +61,20 @@ export function SubscriptionsPage() {
         onSearchChange={setSearch}
       />
 
-      {loading && <AdminTableSkeleton rows={8} columns={6} />}
-      {!loading && error && <ErrorState message={error} onRetry={reload} />}
-      {!loading && !error && subscriptions.length === 0 && (
+      {loading && !hasData && <AdminTableSkeleton rows={8} columns={6} />}
+      {error && !hasData && <ErrorState message={error} onRetry={reload} />}
+      {error && hasData && (
+        <div className="p-3 rounded-lg bg-danger-soft border border-danger/20 text-danger text-sm font-medium">
+          Refresh failed: {error}{' '}
+          <button type="button" className="underline font-semibold" onClick={() => void reload()}>
+            Retry
+          </button>
+        </div>
+      )}
+      {hasData && subscriptions.length === 0 && !error && (
         <EmptyState message="No subscriptions found matching the filter criteria." />
       )}
-      {!loading && !error && subscriptions.length > 0 && (
+      {hasData && subscriptions.length > 0 && (
         <SubscriptionsTable
           subscriptions={subscriptions}
           total={total}

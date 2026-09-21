@@ -71,5 +71,6 @@ export function useSubscriptions(initialLimit = 20) {
     loading,
     refreshing,
     reload,
+    hasData: data !== undefined,
   };
 }

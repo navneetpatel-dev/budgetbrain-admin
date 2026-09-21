@@ -34,9 +34,9 @@ export function UserDetailPage({ id }: UserDetailPageProps = {}) {
 
   return (
     <div className={usersStyles.view}>
-      {loading && <AdminDetailSkeleton />}
-      {!loading && error && <ErrorState message={error} onRetry={reload} />}
-      {!loading && !error && user && (
+      {loading && !user && <AdminDetailSkeleton />}
+      {!loading && error && !user && <ErrorState message={error} onRetry={reload} />}
+      {user && (
         <>
           <div className={usersStyles.header}>
             <div className={usersStyles.headerLeft}>
@@ -59,7 +59,9 @@ export function UserDetailPage({ id }: UserDetailPageProps = {}) {
             </button>
           </div>
 
-          {actionError && <div className={usersStyles.errorBanner}>{actionError}</div>}
+          {(actionError || error) && (
+            <div className={usersStyles.errorBanner}>{actionError || `Refresh failed: ${error}`}</div>
+          )}
 
           <div className={`${usersStyles.detailGrid}${refreshing ? ' opacity-75' : ''}`}>
             <UserProfileCard user={user} />
