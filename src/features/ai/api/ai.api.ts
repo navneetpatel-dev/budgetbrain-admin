@@ -1,4 +1,4 @@
-import { apiGet } from '@/shared/services/api';
+import { apiGet } from '@/shared/api/admin.api';
 import type { AiUsageResponse } from '../types/ai.types';
 
 export async function getAiUsage(page = 1, limit = 20): Promise<AiUsageResponse> {

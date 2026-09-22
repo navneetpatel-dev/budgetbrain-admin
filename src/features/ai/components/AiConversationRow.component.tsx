@@ -27,11 +27,11 @@ export function AiConversationRow({ conversation: c }: AiConversationRowProps) {
           {c.user?.email ?? c.userId.slice(0, 8)}
         </Link>
         {c.user?.name && (
-          <div className="text-[11px] text-text-tertiary mt-0.5">{c.user.name}</div>
+          <div className={aiStyles.userMeta}>{c.user.name}</div>
         )}
       </td>
-      <td className="max-w-[300px] px-4 py-3.5 border-b border-border-subtle">
-        <span className="block font-medium text-text truncate">
+      <td className={aiStyles.messageCell}>
+        <span className={aiStyles.messageText}>
           {c.title}
         </span>
       </td>

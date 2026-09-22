@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { toEditableRole, ROLES } from '../useUserDetail.hook.ts';
+import { toEditableRole, ROLES } from '../useUserDetail.hook';
 
 describe('useUserDetail role management', () => {
   it('contains expected assignable roles', () => {

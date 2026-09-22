@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { isLoggedIn, verifyAdminSession } from '@/shared/services/api';
-import { AdminLoginSkeleton } from '@/shared/components/Skeleton';
+import { isLoggedIn, verifyAdminSession } from '@/shared/api/admin.api';
+import { AdminLoginSkeleton } from '@/shared/components/Skeleton.component';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

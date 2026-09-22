@@ -1,4 +1,4 @@
-import { apiGet } from '@/shared/services/api';
+import { apiGet } from '@/shared/api/admin.api';
 import type { DashboardData, StatsData, FeatureUsageData } from '../types/dashboard.types';
 
 export async function getDashboardSummary(): Promise<DashboardData> {

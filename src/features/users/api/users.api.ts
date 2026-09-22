@@ -1,4 +1,4 @@
-import { apiGet, apiPatch } from '@/shared/services/api';
+import { apiGet, apiPatch } from '@/shared/api/admin.api';
 import type { UsersResponse, UserDetail } from '../types/users.types';
 
 export interface GetUsersParams {

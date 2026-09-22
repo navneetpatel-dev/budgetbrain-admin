@@ -7,8 +7,8 @@ import { FieldLimits, ValidationMessages } from '@/shared/validation/fieldLimits
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function useLoginForm(onLogin?: () => void) {
-  let router: { push: (url: string) => void } | null = null;
+export function useLoginForm() {
+  let router: { push: (url: string) => void; replace: (url: string) => void } | null = null;
   try {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     router = useRouter();
@@ -28,10 +28,8 @@ export function useLoginForm(onLogin?: () => void) {
   const [mfaError, setMfaError] = useState('');
 
   const completeNavigation = () => {
-    if (onLogin) {
-      onLogin();
-    }
     if (router) {
+      router.replace('/');
       router.push('/');
     } else if (typeof window !== 'undefined') {
       window.location.href = '/';

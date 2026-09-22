@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useCachedResource } from '@/shared/hooks/useCachedResource';
+import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
 import { getUserById, updateUserRole, updateUserSuspension } from '../api/users.api';
 import type { UserDetail, UserRole } from '../types/users.types';
 

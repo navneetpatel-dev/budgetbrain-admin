@@ -15,5 +15,8 @@ export const aiStyles = {
   tdDate: 'px-4 py-3.5 border-b border-border-subtle text-text-tertiary text-[13px]',
   tr: 'hover:bg-surface-hover transition-colors',
   link: 'font-medium text-primary hover:underline',
+  userMeta: 'text-[11px] text-text-tertiary mt-0.5',
+  messageCell: 'max-w-[300px] px-4 py-3.5 border-b border-border-subtle',
+  messageText: 'block font-medium text-text truncate',
   badgeSecondary: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-secondary-soft text-secondary',
 } as const;

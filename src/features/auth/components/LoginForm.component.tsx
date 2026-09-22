@@ -1,7 +1,7 @@
 'use client';
 
 import React, { type FormEvent } from 'react';
-import { BrandMark } from '@/shared/components/BrandMark';
+import { BrandMark } from '@/shared/components/BrandMark.component';
 import { maxLen } from '@/shared/validation/fieldLimits';
 import { loginStyles } from '../styles/login.styles';
 

@@ -2,7 +2,7 @@
 
 import type { AuditLog } from '../types/audit.types';
 import { AuditLogRow } from './AuditLogRow.component';
-import Pagination from '@/shared/components/Pagination';
+import Pagination from '@/shared/components/Pagination.component';
 import { auditStyles } from '../styles/audit.styles';
 
 interface AuditLogsTableProps {

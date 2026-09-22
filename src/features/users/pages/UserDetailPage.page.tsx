@@ -6,8 +6,8 @@ import { UserProfileCard } from '../components/UserProfileCard.component';
 import { UserActionsCard } from '../components/UserActionsCard.component';
 import { UserRoleBadge } from '../components/UserRoleBadge.component';
 import { UserStatusBadge } from '../components/UserStatusBadge.component';
-import { ErrorState } from '@/shared/components/PageStates';
-import { AdminDetailSkeleton } from '@/shared/components/Skeleton';
+import { ErrorState } from '@/shared/components/PageStates.component';
+import { AdminDetailSkeleton } from '@/shared/components/Skeleton.component';
 import { usersStyles } from '../styles/users.styles';
 
 interface UserDetailPageProps {

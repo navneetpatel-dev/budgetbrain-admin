@@ -4,8 +4,8 @@ import { useDashboard } from '../hooks/useDashboard.hook';
 import { FinancialSection } from '../components/FinancialSection.component';
 import { EngagementSection } from '../components/EngagementSection.component';
 import { FeatureUsageSection } from '../components/FeatureUsageSection.component';
-import { ErrorState } from '@/shared/components/PageStates';
-import { AdminDashboardSkeleton } from '@/shared/components/Skeleton';
+import { ErrorState } from '@/shared/components/PageStates.component';
+import { AdminDashboardSkeleton } from '@/shared/components/Skeleton.component';
 import { dashboardStyles } from '../styles/dashboard.styles';
 
 export function DashboardPage() {

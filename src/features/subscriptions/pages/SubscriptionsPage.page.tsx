@@ -4,8 +4,8 @@ import { useSubscriptions } from '../hooks/useSubscriptions.hook';
 import { SubscriptionSummaryCards } from '../components/SubscriptionSummaryCards.component';
 import { SubscriptionFilterBar } from '../components/SubscriptionFilterBar.component';
 import { SubscriptionsTable } from '../components/SubscriptionsTable.component';
-import { ErrorState, EmptyState } from '@/shared/components/PageStates';
-import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { ErrorState, EmptyState } from '@/shared/components/PageStates.component';
+import { AdminTableSkeleton } from '@/shared/components/Skeleton.component';
 import { subscriptionStyles } from '../styles/subscriptions.styles';
 
 export function SubscriptionsPage() {
@@ -64,9 +64,9 @@ export function SubscriptionsPage() {
       {loading && !hasData && <AdminTableSkeleton rows={8} columns={6} />}
       {error && !hasData && <ErrorState message={error} onRetry={reload} />}
       {error && hasData && (
-        <div className="p-3 rounded-lg bg-danger-soft border border-danger/20 text-danger text-sm font-medium">
+        <div className={subscriptionStyles.errorBanner}>
           Refresh failed: {error}{' '}
-          <button type="button" className="underline font-semibold" onClick={() => void reload()}>
+          <button type="button" className={subscriptionStyles.retryLink} onClick={() => void reload()}>
             Retry
           </button>
         </div>

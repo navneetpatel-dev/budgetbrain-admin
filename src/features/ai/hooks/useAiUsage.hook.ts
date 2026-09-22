@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useCachedResource } from '@/shared/hooks/useCachedResource';
+import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
 import { getAiUsage } from '../api/ai.api';
 import type { AiUsageResponse } from '../types/ai.types';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCachedResource } from '@/shared/hooks/useCachedResource';
+import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
 import { getDashboardSummary, getPlatformStats, getFeatureUsage } from '../api/dashboard.api';
 import type { DashboardPageData } from '../types/dashboard.types';
 

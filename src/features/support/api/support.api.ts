@@ -1,4 +1,4 @@
-import { apiGet, apiPatch } from '@/shared/services/api';
+import { apiGet, apiPatch } from '@/shared/api/admin.api';
 import type { TicketsResponse, SupportTicket, TicketStatus } from '../types/support.types';
 
 export async function getSupportTickets(

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { ErrorState } from '@/shared/components/PageStates.component';
 
-export default function DashboardError({
+export default function AuthError({
   error,
   reset,
 }: {
@@ -11,7 +11,7 @@ export default function DashboardError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('[Admin Dashboard Error]:', error);
+    console.error('[Admin Auth Error]:', error);
   }, [error]);
 
   return (

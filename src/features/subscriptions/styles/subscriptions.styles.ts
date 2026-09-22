@@ -25,6 +25,10 @@ export const subscriptionStyles = {
   tdDate: 'px-4 py-3.5 border-b border-border-subtle text-text-tertiary text-[13px] whitespace-nowrap',
   tr: 'hover:bg-surface-hover transition-colors',
   link: 'font-medium text-primary hover:underline',
+  userMeta: 'text-[11px] text-text-tertiary mt-0.5',
+  storeLabel: 'text-xs uppercase font-semibold text-text-secondary',
+  errorBanner: 'p-3 rounded-lg bg-danger-soft border border-danger/20 text-danger text-sm font-medium',
+  retryLink: 'underline font-semibold',
 
   // Status badges
   statusActive: 'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-success-soft text-success capitalize',

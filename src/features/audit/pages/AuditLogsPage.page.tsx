@@ -3,8 +3,8 @@
 import { useAuditLogs } from '../hooks/useAuditLogs.hook';
 import { AuditFilterBar } from '../components/AuditFilterBar.component';
 import { AuditLogsTable } from '../components/AuditLogsTable.component';
-import { ErrorState, EmptyState } from '@/shared/components/PageStates';
-import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { ErrorState, EmptyState } from '@/shared/components/PageStates.component';
+import { AdminTableSkeleton } from '@/shared/components/Skeleton.component';
 import { exportRowsToCsv, type CsvColumn } from '@/shared/utils/exportToCsv';
 import { auditStyles } from '../styles/audit.styles';
 import type { AuditLog } from '../types/audit.types';
@@ -52,7 +52,7 @@ export function AuditLogsPage() {
               : 'Full platform activity trail'}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className={auditStyles.headerActions}>
           <button
             type="button"
             className={auditStyles.refreshBtn}

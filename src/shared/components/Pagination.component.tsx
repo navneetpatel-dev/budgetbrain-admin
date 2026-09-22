@@ -1,5 +1,7 @@
 'use client';
 
+import { paginationStyles } from '@/shared/styles/pagination.styles';
+
 interface PaginationProps {
   page: number;
   limit: number;
@@ -13,25 +15,25 @@ export default function Pagination({ page, limit, total, onPageChange }: Paginat
   const end = Math.min(page * limit, total);
 
   return (
-    <div className="pagination">
-      <span className="pagination-info">
+    <div className={paginationStyles.root}>
+      <span className={paginationStyles.info}>
         {total === 0 ? 'No results' : `Showing ${start}–${end} of ${total}`}
       </span>
-      <div className="pagination-controls">
+      <div className={paginationStyles.controls}>
         <button
           type="button"
-          className="btn-secondary btn-sm"
+          className={paginationStyles.button}
           disabled={page <= 1}
           onClick={() => onPageChange(page - 1)}
         >
           Previous
         </button>
-        <span className="pagination-page">
+        <span className={paginationStyles.page}>
           Page {page} of {totalPages}
         </span>
         <button
           type="button"
-          className="btn-secondary btn-sm"
+          className={paginationStyles.button}
           disabled={page >= totalPages}
           onClick={() => onPageChange(page + 1)}
         >

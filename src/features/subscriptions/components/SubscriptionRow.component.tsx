@@ -34,7 +34,7 @@ export function SubscriptionRow({ subscription: s }: SubscriptionRowProps) {
           {s.user?.email ?? s.userId.slice(0, 8)}
         </Link>
         {s.user?.name && (
-          <div className="text-[11px] text-text-tertiary mt-0.5">{s.user.name}</div>
+          <div className={subscriptionStyles.userMeta}>{s.user.name}</div>
         )}
       </td>
       <td className={subscriptionStyles.td}>
@@ -44,7 +44,7 @@ export function SubscriptionRow({ subscription: s }: SubscriptionRowProps) {
         <SubscriptionStatusBadge status={s.status} />
       </td>
       <td className={subscriptionStyles.td}>
-        <span className="text-xs uppercase font-semibold text-text-secondary">
+        <span className={subscriptionStyles.storeLabel}>
           {s.store.replace('_', ' ')}
         </span>
       </td>

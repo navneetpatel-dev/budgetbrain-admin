@@ -51,7 +51,7 @@ export function UserActionsCard({
       <h3 className={usersStyles.sectionTitle}>Admin Actions</h3>
       <div className={usersStyles.formGroup}>
         <label htmlFor="role" className={usersStyles.formLabel}>Role</label>
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className={usersStyles.roleRow}>
           <select
             id="role"
             className={usersStyles.select}
@@ -77,7 +77,7 @@ export function UserActionsCard({
       </div>
 
       <div className={usersStyles.formGroup}>
-        <div className="flex items-center gap-2 mb-2">
+        <div className={usersStyles.statusRow}>
           <span className={usersStyles.formLabel}>Status:</span>
           <UserStatusBadge isSuspended={user.isSuspended} />
         </div>
@@ -98,11 +98,11 @@ export function UserActionsCard({
       </div>
 
       {confirmCopy && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-surface border border-border p-6 shadow-lg">
-            <h4 className="text-lg font-bold text-text mb-2">{confirmCopy.title}</h4>
-            <p className="text-sm text-text-secondary mb-6">{confirmCopy.body}</p>
-            <div className="flex justify-end gap-3">
+        <div className={usersStyles.confirmOverlay}>
+          <div className={usersStyles.confirmDialog}>
+            <h4 className={usersStyles.confirmTitle}>{confirmCopy.title}</h4>
+            <p className={usersStyles.confirmBody}>{confirmCopy.body}</p>
+            <div className={usersStyles.confirmActions}>
               <button
                 type="button"
                 className={usersStyles.btnSecondary}

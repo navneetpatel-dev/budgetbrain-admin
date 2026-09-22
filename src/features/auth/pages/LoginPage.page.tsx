@@ -4,7 +4,7 @@ import React from 'react';
 import { useLoginForm } from '../hooks/useLoginForm.hook';
 import { LoginForm } from '../components/LoginForm.component';
 
-export function LoginPage({ onLogin }: { onLogin?: () => void } = {}) {
+export function LoginPage() {
   const {
     email,
     password,
@@ -19,7 +19,7 @@ export function LoginPage({ onLogin }: { onLogin?: () => void } = {}) {
     mfaError,
     handleMfaSubmit,
     handleMfaCodeChange,
-  } = useLoginForm(onLogin);
+  } = useLoginForm();
 
   return (
     <LoginForm

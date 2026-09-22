@@ -3,8 +3,8 @@
 import { useSupportTickets } from '../hooks/useSupportTickets.hook';
 import { SupportTicketsFilterBar } from '../components/SupportTicketsFilterBar.component';
 import { TicketsTable } from '../components/TicketsTable.component';
-import { ErrorState, EmptyState } from '@/shared/components/PageStates';
-import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { ErrorState, EmptyState } from '@/shared/components/PageStates.component';
+import { AdminTableSkeleton } from '@/shared/components/Skeleton.component';
 import { exportRowsToCsv, type CsvColumn } from '@/shared/utils/exportToCsv';
 import { supportStyles } from '../styles/support.styles';
 import { STATUS_LABEL, type SupportTicket } from '../types/support.types';
@@ -49,7 +49,7 @@ export function SupportTicketsPage() {
               : 'Manage user support requests'}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className={supportStyles.headerActions}>
           <button
             type="button"
             className={supportStyles.refreshBtn}

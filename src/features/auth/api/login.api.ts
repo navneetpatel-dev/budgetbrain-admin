@@ -1,4 +1,4 @@
-import { login as apiLogin, completeMfaLogin } from '@/shared/services/api';
+import { login as apiLogin, completeMfaLogin } from '@/shared/api/admin.api';
 
 export async function loginAdmin(email: string, password: string) {
   return apiLogin(email, password);

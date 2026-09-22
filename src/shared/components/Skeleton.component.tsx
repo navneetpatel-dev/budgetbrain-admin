@@ -1,6 +1,7 @@
 'use client';
 
 import type { CSSProperties, ReactNode } from 'react';
+import { skeletonStyles } from '@/shared/styles/skeleton.styles';
 
 /* ── Skeleton Block ── */
 
@@ -54,7 +55,7 @@ function SurfaceCard({
 }) {
   return (
     <div
-      className={className ? `card ${className}` : 'card'}
+      className={className ? `${skeletonStyles.card} ${className}` : skeletonStyles.card}
       style={{
         padding: 16,
         ...style,
@@ -70,9 +71,9 @@ function SurfaceCard({
 /** Dashboard/KPI cards — matches `.grid` + `.stat` layout. Title stays on the page. */
 export function AdminDashboardSkeleton({ cards = 12 }: { cards?: number }) {
   return (
-    <div className="grid">
+    <div className={skeletonStyles.grid}>
       {Array.from({ length: cards }).map((_, i) => (
-        <SurfaceCard key={i} className="stat" style={{ minHeight: 88, textAlign: 'center' }}>
+        <SurfaceCard key={i} className={skeletonStyles.stat} style={{ minHeight: 88, textAlign: 'center' }}>
           <SkeletonBlock width="48%" height={28} radius={8} style={{ margin: '0 auto 10px' }} />
           <SkeletonBlock width="62%" height={13} radius={6} style={{ margin: '0 auto' }} />
         </SurfaceCard>
@@ -147,7 +148,7 @@ export function AdminDetailSkeleton() {
         <SkeletonBlock width={120} height={14} radius={6} style={{ marginBottom: 12 }} />
         <SkeletonBlock width={220} height={28} radius={8} />
       </div>
-      <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+      <div className={skeletonStyles.grid} style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
         <SurfaceCard>
           <SkeletonBlock width={90} height={16} radius={6} style={{ marginBottom: 18 }} />
           {Array.from({ length: 6 }).map((_, i) => (

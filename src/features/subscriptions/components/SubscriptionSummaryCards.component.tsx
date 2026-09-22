@@ -1,7 +1,6 @@
-import { BentoStat } from '@/features/dashboard/components/BentoStat.component';
+import { BentoStat, dashboardStyles } from '@/features/dashboard';
 import type { SubscriptionMetrics } from '../types/subscriptions.types';
 import { subscriptionStyles } from '../styles/subscriptions.styles';
-import { dashboardStyles } from '@/features/dashboard/styles/dashboard.styles';
 
 interface SubscriptionSummaryCardsProps {
   metrics: SubscriptionMetrics;

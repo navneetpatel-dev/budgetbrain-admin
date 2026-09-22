@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { isLoggedIn, logout, verifyAdminSession } from '@/shared/services/api';
-import { BrandMark } from '@/shared/components/BrandMark';
-import { AdminLoginSkeleton } from '@/shared/components/Skeleton';
+import { isLoggedIn, logout, verifyAdminSession } from '@/shared/api/admin.api';
+import { BrandMark } from '@/shared/components/BrandMark.component';
+import { AdminLoginSkeleton } from '@/shared/components/Skeleton.component';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Dashboard', exact: true },

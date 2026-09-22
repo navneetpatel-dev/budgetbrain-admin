@@ -2,8 +2,8 @@
 
 import { useAiUsage } from '../hooks/useAiUsage.hook';
 import { AiUsageTable } from '../components/AiUsageTable.component';
-import { ErrorState, EmptyState } from '@/shared/components/PageStates';
-import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { ErrorState, EmptyState } from '@/shared/components/PageStates.component';
+import { AdminTableSkeleton } from '@/shared/components/Skeleton.component';
 import { aiStyles } from '../styles/ai.styles';
 
 export function AiUsagePage() {

@@ -1,4 +1,4 @@
-import { apiGet } from '@/shared/services/api';
+import { apiGet } from '@/shared/api/admin.api';
 import type {
   SubscriptionsResponse,
   SubscriptionQueryParams,

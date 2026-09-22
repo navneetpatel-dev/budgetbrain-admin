@@ -1,7 +1,7 @@
 import type { DashboardPageData } from '../types/dashboard.types';
 import { BentoStat } from './BentoStat.component';
 import { dashboardStyles } from '../styles/dashboard.styles';
-import { EmptyState } from '@/shared/components/PageStates';
+import { EmptyState } from '@/shared/components/PageStates.component';
 
 interface FeatureUsageSectionProps {
   data: DashboardPageData;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useCachedResource } from '@/shared/hooks/useCachedResource';
+import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
 import { getSubscriptions, getSubscriptionMetrics } from '../api/subscriptions.api';
 import type {
   SubscriptionsResponse,

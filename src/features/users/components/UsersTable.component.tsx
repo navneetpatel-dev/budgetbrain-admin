@@ -2,8 +2,8 @@
 
 import type { User } from '../types/users.types';
 import { UserRow } from './UserRow.component';
-import Pagination from '@/shared/components/Pagination';
-import { SortableHeader } from '@/shared/components/SortableHeader';
+import Pagination from '@/shared/components/Pagination.component';
+import { SortableHeader } from '@/shared/components/SortableHeader.component';
 import { usersStyles } from '../styles/users.styles';
 
 interface UsersTableProps {

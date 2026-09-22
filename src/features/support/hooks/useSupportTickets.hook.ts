@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useCachedResource } from '@/shared/hooks/useCachedResource';
+import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
 import { getSupportTickets, updateTicketStatus } from '../api/support.api';
 import type { TicketsResponse, TicketStatus } from '../types/support.types';
 

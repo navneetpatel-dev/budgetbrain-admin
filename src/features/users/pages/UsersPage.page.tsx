@@ -3,8 +3,8 @@
 import { useUsersList } from '../hooks/useUsersList.hook';
 import { UsersFilterBar } from '../components/UsersFilterBar.component';
 import { UsersTable } from '../components/UsersTable.component';
-import { ErrorState, EmptyState } from '@/shared/components/PageStates';
-import { AdminTableSkeleton } from '@/shared/components/Skeleton';
+import { ErrorState, EmptyState } from '@/shared/components/PageStates.component';
+import { AdminTableSkeleton } from '@/shared/components/Skeleton.component';
 import { exportRowsToCsv, type CsvColumn } from '@/shared/utils/exportToCsv';
 import { usersStyles } from '../styles/users.styles';
 import type { User } from '../types/users.types';
@@ -50,7 +50,7 @@ export function UsersPage() {
               : 'Manage all user accounts'}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className={usersStyles.headerActions}>
           <button
             type="button"
             className={usersStyles.refreshBtn}

@@ -5,6 +5,22 @@ import tseslint from 'typescript-eslint'
 import nextPlugin from '@next/eslint-plugin-next'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
+// NEXTJS-STRUCTURE-CONVENTIONS.md §8: other features import a feature's
+// public barrel (`@/features/<name>`), never its internal folders.
+// web/eslint.config.js does not define this rule yet, so the folder list
+// comes from admin/STRUCTURE_MIGRATION_PLAN.md Phase 3.
+const FEATURES = ['ai', 'audit', 'auth', 'dashboard', 'subscriptions', 'support', 'users']
+const FEATURE_INTERNALS = ['api', 'components', 'hooks', 'pages', 'styles', 'types']
+
+function restrictedFeatureImports(features) {
+  return features.flatMap((feature) =>
+    FEATURE_INTERNALS.map((folder) => ({
+      group: [`@/features/${feature}/${folder}`, `@/features/${feature}/${folder}/**`],
+      message: `Import from @/features/${feature}, not its internal ${folder}/ folder. See NEXTJS-STRUCTURE-CONVENTIONS.md §8.`,
+    })),
+  )
+}
+
 // `eslint-config-next`'s own package can't be installed here: it peer-depends
 // on eslint ^7-^9, and this project is on eslint ^10. Its underlying plugin,
 // `@next/eslint-plugin-next`, has no such constraint, so its flat "core web
@@ -45,11 +61,11 @@ export default defineConfig([
     // rule, adapted to admin's real money field names (mrr, arr, churnRate,
     // conversionRate, totalExpenseVolume, etc.).
     //
-    // Pagination.tsx is excluded: its `total`/`limit` are generic pagination
+    // Pagination.component.tsx is excluded: its `total`/`limit` are generic pagination
     // item-counts (used by every list feature), never a money amount, same
     // reasoning as web/eslint.config.js's usePaginatedList.ts exclusion.
     files: ['src/features/**/*.{ts,tsx}', 'src/shared/**/*.{ts,tsx}'],
-    ignores: ['src/shared/components/Pagination.tsx', 'src/**/__tests__/**'],
+    ignores: ['src/shared/components/Pagination.component.tsx', 'src/**/__tests__/**'],
     rules: {
       'no-restricted-syntax': [
         'error',
@@ -68,4 +84,20 @@ export default defineConfig([
       ],
     },
   },
+  {
+    files: ['**/*.{ts,tsx}'],
+    ignores: ['src/features/**'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: restrictedFeatureImports(FEATURES) }],
+    },
+  },
+  ...FEATURES.map((feature) => ({
+    files: [`src/features/${feature}/**/*.{ts,tsx}`],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        { patterns: restrictedFeatureImports(FEATURES.filter((name) => name !== feature)) },
+      ],
+    },
+  })),
 ])

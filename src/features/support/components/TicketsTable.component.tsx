@@ -2,8 +2,8 @@
 
 import type { SupportTicket, TicketStatus } from '../types/support.types';
 import { TicketRow } from './TicketRow.component';
-import Pagination from '@/shared/components/Pagination';
-import { SortableHeader } from '@/shared/components/SortableHeader';
+import Pagination from '@/shared/components/Pagination.component';
+import { SortableHeader } from '@/shared/components/SortableHeader.component';
 import { supportStyles } from '../styles/support.styles';
 
 interface TicketsTableProps {

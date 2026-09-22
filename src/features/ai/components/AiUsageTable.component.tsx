@@ -2,7 +2,7 @@
 
 import type { AiConversation } from '../types/ai.types';
 import { AiConversationRow } from './AiConversationRow.component';
-import Pagination from '@/shared/components/Pagination';
+import Pagination from '@/shared/components/Pagination.component';
 import { aiStyles } from '../styles/ai.styles';
 
 interface AiUsageTableProps {

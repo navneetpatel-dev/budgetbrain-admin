@@ -27,7 +27,7 @@ export function TicketRow({ ticket: t, updatingId, onUpdateStatus }: TicketRowPr
           {t.user?.email ?? t.userId.slice(0, 8)}
         </Link>
         {t.user?.name && (
-          <div className="text-[11px] text-text-tertiary mt-0.5">{t.user.name}</div>
+          <div className={supportStyles.userMeta}>{t.user.name}</div>
         )}
       </td>
       <td className={supportStyles.td}>
@@ -41,7 +41,7 @@ export function TicketRow({ ticket: t, updatingId, onUpdateStatus }: TicketRowPr
         <TicketPriorityBadge priority={t.priority} />
       </td>
       <td className={supportStyles.td}>
-        <div className="flex items-center gap-2">
+        <div className={supportStyles.statusActions}>
           <TicketStatusBadge status={t.status} />
           <select
             className={supportStyles.selectSm}

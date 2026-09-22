@@ -1,5 +1,7 @@
 'use client';
 
+import { pageStateStyles } from '@/shared/styles/pageStates.styles';
+
 export function ErrorState({
   message,
   onRetry,
@@ -8,10 +10,10 @@ export function ErrorState({
   onRetry?: () => void;
 }) {
   return (
-    <div className="state-message state-error">
+    <div className={pageStateStyles.error}>
       <p>{message}</p>
       {onRetry && (
-        <button type="button" className="btn-secondary" onClick={onRetry}>
+        <button type="button" className={pageStateStyles.retryButton} onClick={onRetry}>
           Retry
         </button>
       )}
@@ -20,5 +22,5 @@ export function ErrorState({
 }
 
 export function EmptyState({ message }: { message: string }) {
-  return <div className="state-message state-empty">{message}</div>;
+  return <div className={pageStateStyles.empty}>{message}</div>;
 }

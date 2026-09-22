@@ -2,7 +2,7 @@
 
 import type { AdminSubscription } from '../types/subscriptions.types';
 import { SubscriptionRow } from './SubscriptionRow.component';
-import Pagination from '@/shared/components/Pagination';
+import Pagination from '@/shared/components/Pagination.component';
 import { subscriptionStyles } from '../styles/subscriptions.styles';
 
 interface SubscriptionsTableProps {

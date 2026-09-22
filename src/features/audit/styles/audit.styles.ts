@@ -2,6 +2,7 @@ export const auditStyles = {
   view: 'flex flex-col gap-6',
   header: 'flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border/40',
   headerLeft: 'flex flex-col gap-1',
+  headerActions: 'flex items-center gap-2',
   title: 'text-2xl font-black tracking-tight text-text',
   subtitle: 'text-sm text-text-secondary',
   refreshBtn: 'inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-surface border border-border hover:bg-surface-hover text-text transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-sm',

@@ -1,5 +1,7 @@
 'use client';
 
+import { sortableHeaderStyles } from '@/shared/styles/sortableHeader.styles';
+
 interface SortableHeaderProps {
   label: string;
   column: string;
@@ -17,11 +19,15 @@ export function SortableHeader({ label, column, sortBy, sortDir, onSort, classNa
       <button
         type="button"
         onClick={() => onSort(column)}
-        className="flex items-center gap-1 hover:text-text-primary transition-colors"
+        className={sortableHeaderStyles.button}
         aria-sort={active ? (sortDir === 'ASC' ? 'ascending' : 'descending') : 'none'}
       >
         {label}
-        <span className={active ? 'opacity-100' : 'opacity-30'}>
+        <span
+          className={
+            active ? sortableHeaderStyles.indicatorActive : sortableHeaderStyles.indicatorInactive
+          }
+        >
           {active && sortDir === 'DESC' ? '▼' : '▲'}
         </span>
       </button>

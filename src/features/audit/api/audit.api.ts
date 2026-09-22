@@ -1,4 +1,4 @@
-import { apiGet } from '@/shared/services/api';
+import { apiGet } from '@/shared/api/admin.api';
 import type { AuditLogsQueryParams, AuditLogsResponse } from '../types/audit.types';
 
 export async function getAuditLogs(params: AuditLogsQueryParams): Promise<AuditLogsResponse> {
