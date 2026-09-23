@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
+import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue.hook';
 import { getSubscriptions, getSubscriptionMetrics } from '../api/subscriptions.api';
 import type {
   SubscriptionsResponse,
@@ -21,8 +22,11 @@ export function useSubscriptions(initialLimit = 20) {
   const [status, setStatus] = useState<'' | SubscriptionStatus>('');
   const [plan, setPlan] = useState<'' | SubscriptionPlan>('');
   const [search, setSearch] = useState('');
+  // Raw `search` drives the input so typing stays instant; the debounced value drives
+  // the cache key/fetch so a fast typist doesn't fire one request per keystroke.
+  const debouncedSearch = useDebouncedValue(search, 300);
 
-  const cacheKey = `subscriptions:${page}:${limit}:${status}:${plan}:${search}`;
+  const cacheKey = `subscriptions:${page}:${limit}:${status}:${plan}:${debouncedSearch}`;
   const { data, error, loading, refreshing, reload } = useCachedResource<SubscriptionsData>(
     cacheKey,
     async () => {
@@ -32,7 +36,7 @@ export function useSubscriptions(initialLimit = 20) {
           limit,
           status: status || undefined,
           plan: plan || undefined,
-          search: search || undefined,
+          search: debouncedSearch || undefined,
         }),
         getSubscriptionMetrics(),
       ]);

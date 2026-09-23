@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import Link from 'next/link';
 import type { AiConversation } from '../types/ai.types';
 import { aiStyles } from '../styles/ai.styles';
@@ -8,7 +9,7 @@ interface AiConversationRowProps {
   conversation: AiConversation;
 }
 
-export function AiConversationRow({ conversation: c }: AiConversationRowProps) {
+export const AiConversationRow = memo(function AiConversationRow({ conversation: c }: AiConversationRowProps) {
   const createdDate = new Date(c.createdAt).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -42,4 +43,4 @@ export function AiConversationRow({ conversation: c }: AiConversationRowProps) {
       <td className={aiStyles.tdDate}>{updatedDate}</td>
     </tr>
   );
-}
+});

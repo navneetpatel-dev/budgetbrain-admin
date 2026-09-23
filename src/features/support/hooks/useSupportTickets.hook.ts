@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
 import { getSupportTickets, updateTicketStatus } from '../api/support.api';
 import type { TicketsResponse, TicketStatus } from '../types/support.types';
@@ -31,7 +31,9 @@ export function useSupportTickets(initialPage = 1, limit = 20) {
   const tickets = data?.tickets ?? [];
   const total = data?.total ?? 0;
 
-  const updateStatus = async (id: string, status: TicketStatus) => {
+  // Stable so the memoized TicketRow can actually skip re-rendering when unrelated state
+  // (e.g. sort/filter) changes.
+  const updateStatus = useCallback(async (id: string, status: TicketStatus) => {
     setUpdatingId(id);
     setActionError('');
     try {
@@ -48,7 +50,7 @@ export function useSupportTickets(initialPage = 1, limit = 20) {
     } finally {
       setUpdatingId(null);
     }
-  };
+  }, [setData]);
 
   return {
     tickets,

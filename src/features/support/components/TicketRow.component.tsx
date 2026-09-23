@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import Link from 'next/link';
 import type { SupportTicket, TicketStatus } from '../types/support.types';
 import { STATUSES, STATUS_LABEL } from '../types/support.types';
@@ -13,7 +14,7 @@ interface TicketRowProps {
   onUpdateStatus: (id: string, status: TicketStatus) => void;
 }
 
-export function TicketRow({ ticket: t, updatingId, onUpdateStatus }: TicketRowProps) {
+export const TicketRow = memo(function TicketRow({ ticket: t, updatingId, onUpdateStatus }: TicketRowProps) {
   const createdDate = new Date(t.createdAt).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -60,4 +61,4 @@ export function TicketRow({ ticket: t, updatingId, onUpdateStatus }: TicketRowPr
       <td className={supportStyles.tdDate}>{createdDate}</td>
     </tr>
   );
-}
+});
