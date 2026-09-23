@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 import type { AuditLog } from '../types/audit.types';
 import { AuditLogDetail } from './AuditLogDetail.component';
 import { auditStyles } from '../styles/audit.styles';
@@ -27,7 +27,7 @@ const SEVERITY_BADGES: Record<string, string> = {
   critical: auditStyles.severityCritical,
 };
 
-export function AuditLogRow({ log: l, isExpanded, onToggleExpanded }: AuditLogRowProps) {
+export const AuditLogRow = memo(function AuditLogRow({ log: l, isExpanded, onToggleExpanded }: AuditLogRowProps) {
   const timeFormatted = new Date(l.createdAt).toLocaleString();
 
   return (
@@ -79,4 +79,4 @@ export function AuditLogRow({ log: l, isExpanded, onToggleExpanded }: AuditLogRo
       {isExpanded && <AuditLogDetail log={l} />}
     </Fragment>
   );
-}
+});

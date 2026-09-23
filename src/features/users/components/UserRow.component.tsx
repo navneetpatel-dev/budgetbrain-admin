@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Link from 'next/link';
 import type { User } from '../types/users.types';
 import { UserStatusBadge } from './UserStatusBadge.component';
@@ -8,7 +9,7 @@ interface UserRowProps {
   user: User;
 }
 
-export function UserRow({ user }: UserRowProps) {
+export const UserRow = memo(function UserRow({ user }: UserRowProps) {
   const joinedDate = new Date(user.createdAt).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
@@ -32,4 +33,4 @@ export function UserRow({ user }: UserRowProps) {
       <td className={usersStyles.tdDate}>{joinedDate}</td>
     </tr>
   );
-}
+});

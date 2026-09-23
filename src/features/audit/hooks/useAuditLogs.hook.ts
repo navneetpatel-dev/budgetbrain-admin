@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useCachedResource } from '@/shared/hooks/useCachedResource.hook';
 import { getAuditLogs } from '../api/audit.api';
 import type {
@@ -42,9 +42,9 @@ export function useAuditLogs(limit = 10) {
     setSeverity(newSeverity);
   };
 
-  const toggleExpanded = (id: string) => {
+  const toggleExpanded = useCallback((id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
-  };
+  }, []);
 
   return {
     logs,

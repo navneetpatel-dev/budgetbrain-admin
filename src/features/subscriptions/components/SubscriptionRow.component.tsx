@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import Link from 'next/link';
 import type { AdminSubscription } from '../types/subscriptions.types';
 import { SubscriptionTierBadge } from './SubscriptionTierBadge.component';
@@ -10,7 +11,7 @@ interface SubscriptionRowProps {
   subscription: AdminSubscription;
 }
 
-export function SubscriptionRow({ subscription: s }: SubscriptionRowProps) {
+export const SubscriptionRow = memo(function SubscriptionRow({ subscription: s }: SubscriptionRowProps) {
   const periodEndFormatted = s.isLifetime
     ? 'Lifetime Access'
     : s.currentPeriodEnd
@@ -52,4 +53,4 @@ export function SubscriptionRow({ subscription: s }: SubscriptionRowProps) {
       <td className={subscriptionStyles.tdDate}>{createdFormatted}</td>
     </tr>
   );
-}
+});
