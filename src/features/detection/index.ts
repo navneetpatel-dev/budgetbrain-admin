@@ -3,6 +3,7 @@ export * from './api/detection.api';
 export * from './hooks/useDetectionDashboard.hook';
 export * from './hooks/useCatalog.hook';
 export * from './hooks/useKillSwitches.hook';
+export * from './hooks/useRollout.hook';
 export * from './hooks/useLearningQueues.hook';
 export * from './hooks/useDeletionRequests.hook';
 export * from './hooks/useUserDetection.hook';

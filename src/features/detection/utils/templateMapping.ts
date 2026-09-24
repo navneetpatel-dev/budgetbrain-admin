@@ -143,3 +143,25 @@ export function cellText(value: unknown): string {
 export function formatRate(rate: number): string {
   return `${(Math.round(rate * 1000) / 10).toFixed(1)}%`;
 }
+
+/** Rollout stages (plan T9.3): internal is 0 % plus admin accounts. */
+export const ROLLOUT_STAGES = [
+  { id: 'off', label: 'Off', percent: 0, includeInternal: false },
+  { id: 'internal', label: 'Internal (admins)', percent: 0, includeInternal: true },
+  { id: 'pct5', label: '5 %', percent: 5, includeInternal: true },
+  { id: 'pct25', label: '25 %', percent: 25, includeInternal: true },
+  { id: 'all', label: '100 %', percent: 100, includeInternal: true },
+] as const;
+export type RolloutStageId = (typeof ROLLOUT_STAGES)[number]['id'];
+
+/** The stage a row is at; a percentage set by hand shows as custom. */
+export function rolloutStageOf(row: { percent: number; includeInternal: boolean }): RolloutStageId | 'custom' {
+  return ROLLOUT_STAGES.find((s) => s.percent === row.percent && s.includeInternal === row.includeInternal)?.id ?? 'custom';
+}
+
+/** The next stage in the plan's order, or null at 100 %. */
+export function nextRolloutStage(id: RolloutStageId | 'custom'): RolloutStageId | null {
+  const order: RolloutStageId[] = ['internal', 'pct5', 'pct25', 'all'];
+  const at = order.indexOf(id as RolloutStageId);
+  return at >= 0 && at < order.length - 1 ? order[at + 1]! : null;
+}

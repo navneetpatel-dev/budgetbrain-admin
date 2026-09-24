@@ -6,7 +6,9 @@ import {
   defaultTemplateFields,
   editableData,
   formatRate,
+  nextRolloutStage,
   parseDataJson,
+  rolloutStageOf,
   skeletonPlaceholders,
   suggestTemplateId,
   templateMappingErrors,
@@ -70,5 +72,18 @@ describe('catalog helpers (T7.3)', () => {
     assert.equal(cellText('x'.repeat(90)), `${'x'.repeat(80)}…`);
     assert.equal(formatRate(0.1234), '12.3%');
     assert.equal(formatRate(0), '0.0%');
+  });
+});
+
+describe('rollout stages (T9.3)', () => {
+  it('names the stage a row is at and the next one in the plan', () => {
+    assert.equal(rolloutStageOf({ percent: 0, includeInternal: true }), 'internal');
+    assert.equal(rolloutStageOf({ percent: 0, includeInternal: false }), 'off');
+    assert.equal(rolloutStageOf({ percent: 25, includeInternal: true }), 'pct25');
+    assert.equal(rolloutStageOf({ percent: 40, includeInternal: true }), 'custom');
+    assert.equal(nextRolloutStage('internal'), 'pct5');
+    assert.equal(nextRolloutStage('pct25'), 'all');
+    assert.equal(nextRolloutStage('all'), null);
+    assert.equal(nextRolloutStage('off'), null);
   });
 });

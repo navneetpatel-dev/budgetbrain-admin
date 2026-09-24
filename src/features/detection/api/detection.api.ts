@@ -1,4 +1,4 @@
-import { apiGet, apiPatch, apiPost } from '@/shared/api/admin.api';
+import { apiDelete, apiGet, apiPatch, apiPost, apiPut } from '@/shared/api/admin.api';
 import type {
   AliasCandidate,
   CatalogEntity,
@@ -11,6 +11,7 @@ import type {
   KillSwitch,
   KillSwitchInput,
   PackBuildResult,
+  RolloutRow,
   SkeletonGroup,
   TemplateFromSkeletonInput,
   UserDetection,
@@ -70,6 +71,21 @@ export function createKillSwitch(input: KillSwitchInput) {
 
 export function setKillSwitchActive(id: string, active: boolean, reason?: string) {
   return apiPatch<KillSwitch>(`${BASE}/kill-switches/${id}`, reason ? { active, reason } : { active });
+}
+
+/** `''` (the default row) is `default` in the URL. */
+const rolloutPath = (country: string) => `${BASE}/rollout/${country || 'default'}`;
+
+export function listRollout() {
+  return apiGet<RolloutRow[]>(`${BASE}/rollout`);
+}
+
+export function setRollout(country: string, input: { percent: number; includeInternal: boolean; note?: string | null }) {
+  return apiPut<RolloutRow>(rolloutPath(country), input);
+}
+
+export function deleteRollout(country: string) {
+  return apiDelete<{ deleted: boolean }>(rolloutPath(country));
 }
 
 export function listSkeletonQueue() {

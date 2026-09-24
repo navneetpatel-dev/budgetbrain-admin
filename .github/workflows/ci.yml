@@ -13,8 +13,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
       - run: npm ci
       - run: npm run lint
+      # Plan T9.4 (Q7): typecheck in CI for every repo; T9.1: the unit and component tests.
+      - run: npm run typecheck
+      - run: npm test
       - run: npm run build

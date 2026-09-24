@@ -190,6 +190,14 @@ export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
   return apiFetch<T>(path, { method: 'PATCH', body: JSON.stringify(body) });
 }
 
+export async function apiPut<T>(path: string, body: unknown): Promise<T> {
+  return apiFetch<T>(path, { method: 'PUT', body: JSON.stringify(body) });
+}
+
+export async function apiDelete<T>(path: string): Promise<T> {
+  return apiFetch<T>(path, { method: 'DELETE' });
+}
+
 type LoginResult =
   | { mfaRequired: true; mfaToken: string }
   | { mfaRequired?: false; role: string };

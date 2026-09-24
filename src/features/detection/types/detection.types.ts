@@ -88,6 +88,16 @@ export interface KillSwitch {
   updatedAt: string;
 }
 
+/** Staged rollout of automatic detection per country (plan T9.3); '' is the default row. */
+export interface RolloutRow {
+  country: string;
+  percent: number;
+  includeInternal: boolean;
+  note: string | null;
+  updatedBy: string | null;
+  updatedAt: string;
+}
+
 export interface KillSwitchInput {
   scope: KillSwitchScope;
   key: string;
