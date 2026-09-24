@@ -6,6 +6,7 @@ import { UserProfileCard } from '../components/UserProfileCard.component';
 import { UserActionsCard } from '../components/UserActionsCard.component';
 import { UserRoleBadge } from '../components/UserRoleBadge.component';
 import { UserStatusBadge } from '../components/UserStatusBadge.component';
+import { UserDetectionCard, useUserDetection } from '@/features/detection';
 import { ErrorState } from '@/shared/components/PageStates.component';
 import { AdminDetailSkeleton } from '@/shared/components/Skeleton.component';
 import { usersStyles } from '../styles/users.styles';
@@ -29,6 +30,7 @@ export function UserDetailPage({ id }: UserDetailPageProps = {}) {
     saveRole,
     toggleSuspend,
   } = useUserDetail(id);
+  const detection = useUserDetection(id ?? '');
 
   if (!id) return <ErrorState message="Invalid user ID" />;
 
@@ -74,6 +76,11 @@ export function UserDetailPage({ id }: UserDetailPageProps = {}) {
               onToggleSuspend={toggleSuspend}
             />
           </div>
+
+          {detection.detection && <UserDetectionCard detection={detection.detection} />}
+          {!detection.loading && detection.error && !detection.detection && (
+            <ErrorState message={`Detection: ${detection.error}`} onRetry={detection.reload} />
+          )}
         </>
       )}
     </div>

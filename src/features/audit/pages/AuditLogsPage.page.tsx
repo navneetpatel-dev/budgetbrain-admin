@@ -27,10 +27,12 @@ export function AuditLogsPage() {
     page,
     limit,
     setPage,
+    action,
     source,
     outcome,
     severity,
     expandedId,
+    setAction,
     setSource,
     setOutcome,
     setSeverity,
@@ -73,6 +75,8 @@ export function AuditLogsPage() {
       </div>
 
       <AuditFilterBar
+        action={action}
+        onActionChange={setAction}
         source={source}
         outcome={outcome}
         severity={severity}

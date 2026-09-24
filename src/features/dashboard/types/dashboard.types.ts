@@ -17,8 +17,17 @@ export interface FeatureUsageItem {
   eventsCount: number;
 }
 
+/** From the hourly detection rollup (plan T7.3). */
+export interface AutoTrackingAdoption {
+  activeUsers30d: number;
+  templateLearningUsers: number;
+  reviewAllUsers: number;
+  computedAt: string | null;
+}
+
 export interface FeatureUsageData {
   period: string;
+  autoTracking?: AutoTrackingAdoption;
   features: FeatureUsageItem[];
 }
 
