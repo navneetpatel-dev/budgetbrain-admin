@@ -9,7 +9,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 // public barrel (`@/features/<name>`), never its internal folders.
 // web/eslint.config.js does not define this rule yet, so the folder list
 // comes from admin/STRUCTURE_MIGRATION_PLAN.md Phase 3.
-const FEATURES = ['ai', 'audit', 'auth', 'dashboard', 'subscriptions', 'support', 'users']
+const FEATURES = ['ai', 'audit', 'auth', 'dashboard', 'detection', 'subscriptions', 'support', 'users']
 const FEATURE_INTERNALS = ['api', 'components', 'hooks', 'pages', 'styles', 'types']
 
 function restrictedFeatureImports(features) {

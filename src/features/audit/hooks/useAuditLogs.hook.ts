@@ -12,20 +12,26 @@ import type {
 
 export function useAuditLogs(limit = 10) {
   const [page, setPage] = useState(1);
+  const [action, setAction] = useState('');
   const [source, setSource] = useState<'' | AuditSource>('');
   const [outcome, setOutcome] = useState<'' | AuditOutcome>('');
   const [severity, setSeverity] = useState<'' | AuditSeverity>('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const cacheKey = `audit-logs:${page}:${source}:${outcome}:${severity}`;
+  const cacheKey = `audit-logs:${page}:${action}:${source}:${outcome}:${severity}`;
   const { data, error, loading, refreshing, reload } = useCachedResource<AuditLogsResponse>(
     cacheKey,
-    () => getAuditLogs({ page, limit, source, outcome, severity }),
+    () => getAuditLogs({ page, limit, action, source, outcome, severity }),
     { cache: false }
   );
 
   const logs = data?.logs ?? [];
   const total = data?.total ?? 0;
+
+  const handleActionChange = (newAction: string) => {
+    setPage(1);
+    setAction(newAction);
+  };
 
   const handleSourceChange = (newSource: '' | AuditSource) => {
     setPage(1);
@@ -52,10 +58,12 @@ export function useAuditLogs(limit = 10) {
     page,
     limit,
     setPage,
+    action,
     source,
     outcome,
     severity,
     expandedId,
+    setAction: handleActionChange,
     setSource: handleSourceChange,
     setOutcome: handleOutcomeChange,
     setSeverity: handleSeverityChange,

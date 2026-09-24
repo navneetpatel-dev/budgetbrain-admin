@@ -6,6 +6,7 @@ export async function getAuditLogs(params: AuditLogsQueryParams): Promise<AuditL
     page: String(params.page),
     limit: String(params.limit),
   });
+  if (params.action) query.set('action', params.action);
   if (params.source) query.set('source', params.source);
   if (params.outcome) query.set('outcome', params.outcome);
   if (params.severity) query.set('severity', params.severity);

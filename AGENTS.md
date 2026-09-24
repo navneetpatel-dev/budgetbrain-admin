@@ -8,7 +8,7 @@ src/
     layout.tsx
     (auth)/                 # login, error boundary
     (dashboard)/            # layout, error boundary, feature routes
-  features/                 # ai, audit, auth, dashboard, subscriptions, support, users
+  features/                 # ai, audit, auth, dashboard, detection, subscriptions, support, users
     <feature>/
       api/
       components/
@@ -25,4 +25,4 @@ src/
     validation/
 ```
 
-`subscriptions/` also has `utils/`. Import another feature through its `index.ts` barrel (`@/features/<name>`), not its internal folders. Import shared code from `@/shared/...`.
+`subscriptions/` and `detection/` also have `utils/`. Import another feature through its `index.ts` barrel (`@/features/<name>`), not its internal folders. Import shared code from `@/shared/...`.

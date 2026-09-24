@@ -28,9 +28,25 @@ export interface AuditLogsResponse {
   limit: number;
 }
 
+/** Detection and knowledge-base actions (plan T7.7), filterable on the audit page. */
+export const DETECTION_AUDIT_ACTIONS = [
+  'detection.auto_create',
+  'detection.confirm',
+  'detection.reject',
+  'detection.undo',
+  'detection.delete_all',
+  'detection.statement_import',
+  'detection.export',
+  'kb.change',
+  'kb.publish',
+  'kb.pack_build',
+  'kb.kill_switch_change',
+] as const;
+
 export interface AuditLogsQueryParams {
   page: number;
   limit: number;
+  action?: string;
   source?: '' | AuditSource;
   outcome?: '' | AuditOutcome;
   severity?: '' | AuditSeverity;
